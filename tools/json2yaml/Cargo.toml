@@ -1,0 +1,14 @@
+[package]
+name = "json2yaml"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Small JSON to YAML converter designed to be compiled to WebAssembly."
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+serde_json = "1"
+serde_yaml = "0.9"
+
