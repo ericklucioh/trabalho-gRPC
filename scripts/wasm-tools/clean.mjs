@@ -1,5 +1,5 @@
 import { rmSync } from 'node:fs';
-import { distRoot } from './definitions.mjs';
+import { outputRoot } from './definitions.mjs';
 
-rmSync(distRoot, { recursive: true, force: true });
-console.log(`cleaned ${distRoot}`);
+rmSync(outputRoot, { recursive: true, force: true });
+console.log(`cleaned ${outputRoot}`);

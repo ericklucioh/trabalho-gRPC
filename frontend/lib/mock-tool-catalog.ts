@@ -1,6 +1,5 @@
+import { encodeBase64 } from './base64';
 import { API_VERSION, type PrepareToolRequest, type PrepareToolResponse, type ToolId, type ToolManifest, type ToolSummary } from './contracts';
-
-const BASE_URL = 'https://mock.local/tools';
 
 const TOOL_SUMMARIES: ToolSummary[] = [
   {
@@ -21,7 +20,7 @@ const TOOL_SUMMARIES: ToolSummary[] = [
     inputKind: 'text',
     outputKind: 'text',
     executionMode: 'client_wasm',
-    supportedMimeTypes: ['application/x-yaml', 'text/plain'],
+    supportedMimeTypes: ['application/yaml', 'text/plain'],
   },
 ];
 
@@ -47,7 +46,7 @@ const TOOL_MANIFESTS: Record<ToolId, ToolManifest> = {
     entrypoint: 'convert_yaml_to_json',
     inputKind: 'text',
     outputKind: 'text',
-    supportedMimeTypes: ['application/x-yaml', 'text/plain'],
+    supportedMimeTypes: ['application/yaml', 'text/plain'],
     cacheTtlSeconds: 300,
     moduleSha256: 'mock-sha256-yaml2json',
     moduleSizeBytes: 4096,
@@ -60,18 +59,21 @@ function createMockBytes(toolId: ToolId): Uint8Array {
 }
 
 function buildResponse(manifest: ToolManifest): PrepareToolResponse {
+  const wasmBytes = createMockBytes(manifest.toolId);
   return {
     apiVersion: API_VERSION,
     toolId: manifest.toolId,
     displayName: manifest.toolName,
+    entrypoint: manifest.entrypoint,
     status: 'ready',
     statusMessage: 'Pacote WASM preparado para download no browser.',
-    manifestUrl: `${BASE_URL}/${manifest.toolId}/manifest.json`,
-    downloadUrl: `${BASE_URL}/${manifest.toolId}/module.wasm`,
+    manifestUrl: `/api/tools/${manifest.toolId}/manifest`,
+    downloadUrl: `/api/tools/${manifest.toolId}/package`,
     moduleVersion: manifest.moduleVersion,
     moduleSha256: manifest.moduleSha256,
     moduleSizeBytes: manifest.moduleSizeBytes,
     supportedMimeTypes: manifest.supportedMimeTypes,
+    wasmBytesBase64: encodeBase64(wasmBytes),
   };
 }
 
@@ -85,6 +87,7 @@ export async function prepareMockTool(request: PrepareToolRequest): Promise<Prep
       apiVersion: API_VERSION,
       toolId: request.toolId,
       displayName: request.toolId,
+      entrypoint: '',
       status: 'rejected',
       statusMessage: 'Versão de contrato inválida para preparação da tool.',
       manifestUrl: '',
@@ -93,6 +96,7 @@ export async function prepareMockTool(request: PrepareToolRequest): Promise<Prep
       moduleSha256: '',
       moduleSizeBytes: 0,
       supportedMimeTypes: [],
+      wasmBytesBase64: '',
       error: {
         code: 'INVALID_VERSION',
         message: 'apiVersion must be v1',

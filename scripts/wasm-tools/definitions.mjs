@@ -6,6 +6,7 @@ const scriptDir = dirname(fileURLToPath(import.meta.url));
 export const repoRoot = join(scriptDir, '..', '..');
 export const toolsWorkspace = join(repoRoot, 'tools');
 export const distRoot = join(repoRoot, 'dist', 'tools');
+export const outputRoot = process.env.WASM_OUTPUT_ROOT ?? distRoot;
 export const cargoTargetDir = process.env.CARGO_TARGET_DIR ?? join('/tmp', 'trabalho-grpc-wasm-target');
 export const wasmTarget = 'wasm32-unknown-unknown';
 export const apiVersion = 'v1';

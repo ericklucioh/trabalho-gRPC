@@ -5,7 +5,7 @@ import {
   apiVersion,
   assertToolWorkspaceAlignment,
   cacheTtlSeconds,
-  distRoot,
+  outputRoot,
   toolDefinitions,
 } from './definitions.mjs';
 
@@ -18,7 +18,7 @@ function readJson(filePath) {
 }
 
 function verifyTool(tool) {
-  const outputDir = join(distRoot, tool.toolId);
+  const outputDir = join(outputRoot, tool.toolId);
   const wasmFile = join(outputDir, 'module.wasm');
   const manifestFile = join(outputDir, 'manifest.json');
   const metadataFile = join(outputDir, 'metadata.json');

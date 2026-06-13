@@ -7,8 +7,8 @@ import {
   assertToolWorkspaceAlignment,
   cacheTtlSeconds,
   cargoTargetDir,
-  distRoot,
   repoRoot,
+  outputRoot,
   toolDefinitions,
   toolsWorkspace,
   wasmTarget,
@@ -45,7 +45,7 @@ function packageTool(tool) {
     'release',
     `${tool.crateName}.wasm`
   );
-  const outputDir = join(distRoot, tool.toolId);
+  const outputDir = join(outputRoot, tool.toolId);
   const outputFile = join(outputDir, 'module.wasm');
   const manifestFile = join(outputDir, 'manifest.json');
   const metadataFile = join(outputDir, 'metadata.json');
@@ -96,13 +96,13 @@ function packageTool(tool) {
 }
 
 function cleanOutput() {
-  rmSync(distRoot, { recursive: true, force: true });
+  rmSync(outputRoot, { recursive: true, force: true });
 }
 
 function main() {
   assertToolWorkspaceAlignment();
   cleanOutput();
-  mkdirSync(distRoot, { recursive: true });
+  mkdirSync(outputRoot, { recursive: true });
   buildWorkspaceArtifacts();
 
   for (const tool of toolDefinitions) {

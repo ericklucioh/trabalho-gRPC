@@ -1,12 +1,18 @@
 import { useEffect, useState } from 'react';
 
 import { createRequestId } from '../lib/request-id';
-import { type ToolConfiguration, type ToolId, type ToolStatus, type ToolSummary } from '../lib/contracts';
-import { buildPrepareRequest, mockToolCatalogAdapter, type ToolCatalogAdapter } from '../lib/tool-catalog';
+import {
+  API_VERSION,
+  type ToolConfiguration,
+  type ToolId,
+  type ToolStatus,
+  type ToolSummary,
+  type ToolManifest,
+} from '../lib/contracts';
+import { buildPrepareRequest, decodeToolBytes, httpToolCatalogAdapter, type ToolCatalogAdapter } from '../lib/tool-catalog';
 import { MockToolRuntimeAdapter, type ToolRuntimeAdapter } from '../lib/tool-runtime';
 import { validateInput } from '../lib/validation';
-import { getMockManifest, getMockModuleBytes } from '../lib/mock-tool-catalog';
-import { toToolConfiguration } from '../lib/tool-catalog';
+import { getToolCatalogMetadata } from '../lib/tool-metadata';
 
 const defaultRuntimeAdapter = new MockToolRuntimeAdapter();
 
@@ -40,7 +46,7 @@ export interface UseToolWorkbenchReturn {
 }
 
 export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseToolWorkbenchReturn {
-  const catalogAdapter = options.catalogAdapter ?? mockToolCatalogAdapter;
+  const catalogAdapter = options.catalogAdapter ?? httpToolCatalogAdapter;
   const runtimeAdapter = options.runtimeAdapter ?? defaultRuntimeAdapter;
 
   const [tools, setTools] = useState<ToolSummary[]>([]);
@@ -119,7 +125,7 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
 
     setIsConfiguring(true);
     setErrorMessage(null);
-    setStatusMessage('Solicitando pacote WASM mockado.');
+    setStatusMessage('Solicitando pacote WASM via Next.');
     setToolStatus('loading');
 
     const clientRequestId = createRequestId();
@@ -131,9 +137,16 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
         throw new Error(prepareResponse.statusMessage);
       }
 
-      const manifest = getMockManifest(selectedToolId);
-      const moduleBytes = getMockModuleBytes(selectedToolId);
-      const nextConfiguration = toToolConfiguration(prepareResponse, manifest, moduleBytes);
+      const manifest = buildToolManifest(prepareResponse);
+      const moduleBytes = decodeToolBytes(prepareResponse);
+      const nextConfiguration: ToolConfiguration = {
+        toolId: prepareResponse.toolId,
+        toolLabel: prepareResponse.displayName,
+        manifest,
+        moduleBytes,
+        isConfigured: false,
+        configuredAtIso: new Date().toISOString(),
+      };
       const loadedConfiguration = await runtimeAdapter.loadToolPackage(nextConfiguration);
 
       setConfiguredTool(loadedConfiguration);
@@ -221,4 +234,21 @@ function getErrorMessage(error: unknown): string {
   }
 
   return 'Erro inesperado.';
+}
+
+function buildToolManifest(prepareResponse: Awaited<ReturnType<ToolCatalogAdapter['prepareTool']>>): ToolManifest {
+  const metadata = getToolCatalogMetadata(prepareResponse.toolId);
+  return {
+    apiVersion: API_VERSION,
+    toolId: prepareResponse.toolId,
+    toolName: prepareResponse.displayName,
+    moduleVersion: prepareResponse.moduleVersion,
+    entrypoint: prepareResponse.entrypoint,
+    inputKind: metadata.inputKind,
+    outputKind: metadata.outputKind,
+    supportedMimeTypes: prepareResponse.supportedMimeTypes,
+    cacheTtlSeconds: 300,
+    moduleSha256: prepareResponse.moduleSha256,
+    moduleSizeBytes: prepareResponse.moduleSizeBytes,
+  };
 }

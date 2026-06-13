@@ -18,8 +18,9 @@ export default function HomePage() {
         <span className="eyebrow">Lojinha WASM</span>
         <h1>Frontend pronto para a demo, com contratos tipados e adapter mockável.</h1>
         <p>
-          A interface já simula o recebimento do pacote WASM, marca a tool como configurada e executa a conversão local
-          no browser. O backend real entra depois, sem precisar reescrever a UI.
+          A interface já conversa com as rotas do Next, que tentam o backend gRPC e caem em fallback local quando ele
+          estiver fora. A UI marca a tool como configurada e executa a conversão local no browser sem reescrever a
+          camada visual.
         </p>
         <div className="badge-row">
           <StatusBadge label={`Tool atual: ${workbench.selectedToolLabel}`} tone={workbench.isConfigured ? 'success' : 'warning'} />

@@ -82,6 +82,7 @@
 - `api_version`: echoed contract version.
 - `tool_id`: echoed tool identifier.
 - `display_name`: user-facing label.
+- `entrypoint`: browser runtime entrypoint for the module.
 - `status`: `ready`, `loading`, `rejected`, or `failed`.
 - `status_message`: short status text.
 - `manifest_url`: URL for the manifest document.
@@ -90,6 +91,7 @@
 - `module_sha256`: checksum for integrity validation.
 - `module_size_bytes`: expected artifact size.
 - `supported_mime_types`: supported input types.
+- `wasm_bytes_base64`: encoded module bytes when Next returns the package inline for the MVP.
 - `error`: typed error object when applicable.
 
 ## Browser State Contract

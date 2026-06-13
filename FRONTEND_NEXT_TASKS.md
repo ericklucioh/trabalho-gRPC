@@ -4,8 +4,8 @@
 
 - Build the browser-facing app in Next.js.
 - Expose a single screen for the MVP.
-- Keep the browser UI ready for a future REST/BFF layer.
-- Use a typed adapter boundary now, so the real gRPC-backed transport can be plugged in later.
+- Keep the browser UI on top of a REST/BFF boundary.
+- Use typed adapters so the gRPC-backed transport stays isolated from the React tree.
 - Keep WebSocket optional and out of the current MVP implementation.
 
 ## Scope
@@ -25,9 +25,9 @@
 - Let the user load the tool list.
 - Let the user choose `json2yaml` or `yaml2json`.
 - Let the user configure the selected tool.
-- Simulate receiving the WASM module in the browser.
+- Receive the WASM module through the Next server flow.
 - Execute the conversion locally through a replaceable runtime adapter.
-- Show the configuration flow in the demo without requiring the Go backend yet.
+- Show the configuration flow in the demo, even when the Go backend is offline.
 
 ## UI Responsibilities
 
@@ -117,13 +117,13 @@
 - Separate message mapping from React components.
 - Make the adapter replaceable in tests.
 - Avoid calling backend logic directly from components.
-- Keep the current implementation mock-driven until the backend exists.
+- Keep the browser talking only to Next routes.
 
 ## Next Server Tasks
 
 - Use the app router unless there is a reason not to.
 - Keep interactive pieces as client components.
-- Put gRPC calls in route handlers or server utilities later, when the backend is available.
+- Put gRPC calls in route handlers or server utilities.
 - Split server and client responsibilities explicitly.
 - Avoid mixing page layout and transport concerns.
 - Keep Next-specific logic thin.

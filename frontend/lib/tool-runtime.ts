@@ -9,6 +9,10 @@ export interface ToolRuntimeAdapter {
 
 export class MockToolRuntimeAdapter implements ToolRuntimeAdapter {
   async loadToolPackage(configuration: ToolConfiguration): Promise<ToolConfiguration> {
+    if (configuration.moduleBytes.byteLength === 0) {
+      throw new Error(`Expected non-empty module bytes for ${configuration.toolId}.`);
+    }
+
     await delay(450);
     return {
       ...configuration,

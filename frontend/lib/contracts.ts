@@ -55,6 +55,7 @@ export interface PrepareToolResponse {
   apiVersion: typeof API_VERSION;
   toolId: ToolId;
   displayName: string;
+  entrypoint: string;
   status: 'ready' | 'loading' | 'rejected' | 'failed';
   statusMessage: string;
   manifestUrl: string;
@@ -63,6 +64,7 @@ export interface PrepareToolResponse {
   moduleSha256: string;
   moduleSizeBytes: number;
   supportedMimeTypes: string[];
+  wasmBytesBase64: string;
   error?: TypedError;
 }
 

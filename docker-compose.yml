@@ -1,0 +1,49 @@
+services:
+  tools:
+    image: alpine:3.20
+    command:
+      - sh
+      - -lc
+      - mkdir -p /artifacts && cp -R /seed-artifacts/. /artifacts/ && ls -R /artifacts
+    volumes:
+      - ./backend/artifacts:/seed-artifacts:ro
+      - artifacts:/artifacts
+    restart: "no"
+
+  back:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      tools:
+        condition: service_completed_successfully
+    environment:
+      API_VERSION: v1
+      ARTIFACT_ROOT: /artifacts
+      GRPC_PORT: "50051"
+      SHUTDOWN_TIMEOUT_SECONDS: "5"
+    ports:
+      - "50051:50051"
+    volumes:
+      - artifacts:/artifacts:ro
+
+  front:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      back:
+        condition: service_started
+    environment:
+      GRPC_ENDPOINT: back:50051
+      NEXT_TELEMETRY_DISABLED: "1"
+      HOSTNAME: 0.0.0.0
+      PORT: "3000"
+    ports:
+      - "3000:3000"
+    volumes:
+      - frontend-node-modules:/app/node_modules
+
+volumes:
+  artifacts:
+  frontend-node-modules:
