@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package lojinha.wasm.v1;
+
+option go_package = "github.com/erick/projs/trabalho-grpc/gen/lojinhawasm/v1;lojinhawasmv1";
+
+service ToolCatalogService {
+  rpc ListTools(ListToolsRequest) returns (ListToolsResponse);
+  rpc GetToolPackage(GetToolPackageRequest) returns (GetToolPackageResponse);
+}
+
+message ListToolsRequest {
+  string api_version = 1;
+  string client_request_id = 2;
+}
+
+message ListToolsResponse {
+  string api_version = 1;
+  repeated ToolSummary tools = 2;
+  TypedError error = 3;
+}
+
+message GetToolPackageRequest {
+  string api_version = 1;
+  string tool_id = 2;
+  string client_request_id = 3;
+}
+
+message GetToolPackageResponse {
+  string api_version = 1;
+  string tool_id = 2;
+  string tool_name = 3;
+  string description = 4;
+  string module_version = 5;
+  string entrypoint = 6;
+  string input_kind = 7;
+  string output_kind = 8;
+  repeated string supported_mime_types = 9;
+  uint32 cache_ttl_seconds = 10;
+  bytes wasm_bytes = 11;
+  string wasm_sha256 = 12;
+  uint64 wasm_size_bytes = 13;
+  TypedError error = 14;
+}
+
+message ToolSummary {
+  string tool_id = 1;
+  string display_name = 2;
+  string description = 3;
+  string latest_version = 4;
+}
+
+message TypedError {
+  string code = 1;
+  string message = 2;
+  string offending_value = 3;
+  string expected_shape = 4;
+}
