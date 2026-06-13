@@ -14,6 +14,14 @@
 - `yaml2json` is part of the MVP target and must be added before the full demo is complete.
 - CI should fail if the declared MVP tools and the workspace contents diverge.
 
+## Implemented Flow
+
+- Local build and verify commands live in `Makefile`.
+- Tool definitions and packaging rules live in `scripts/wasm-tools/definitions.mjs`.
+- The build step packages outputs into `dist/tools/<tool_id>/`.
+- The GitHub Actions workflow lives in `.github/workflows/ci-tools-wasm.yml`.
+- The workflow builds, verifies, and uploads the produced tool bundle.
+
 ## Scope
 
 - One CI workflow for tool builds.

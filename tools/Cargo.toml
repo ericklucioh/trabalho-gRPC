@@ -1,4 +1,3 @@
 [workspace]
-members = ["json2yaml"]
+members = ["json2yaml", "yaml2json"]
 resolver = "2"
-
