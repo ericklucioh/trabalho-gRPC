@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
-import { API_VERSION, type PrepareToolRequest, type ToolId } from '../../../../lib/contracts';
-import { prepareBrowserTool } from '../../../../lib/backend-tool-gateway';
+import { API_VERSION, type PrepareToolRequest, type ToolId } from '../../../../../lib/contracts';
+import { prepareBrowserTool } from '../../../../../lib/backend-tool-gateway';
 
 export const runtime = 'nodejs';
 

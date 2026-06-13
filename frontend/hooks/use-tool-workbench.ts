@@ -10,11 +10,10 @@ import {
   type ToolManifest,
 } from '../lib/contracts';
 import { buildPrepareRequest, decodeToolBytes, httpToolCatalogAdapter, type ToolCatalogAdapter } from '../lib/tool-catalog';
-import { MockToolRuntimeAdapter, type ToolRuntimeAdapter } from '../lib/tool-runtime';
-import { validateInput } from '../lib/validation';
+import { WasmToolRuntimeAdapter, type ToolRuntimeAdapter } from '../lib/tool-runtime';
 import { getToolCatalogMetadata } from '../lib/tool-metadata';
 
-const defaultRuntimeAdapter = new MockToolRuntimeAdapter();
+const defaultRuntimeAdapter = new WasmToolRuntimeAdapter();
 
 export interface UseToolWorkbenchOptions {
   catalogAdapter?: ToolCatalogAdapter;
@@ -125,7 +124,7 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
 
     setIsConfiguring(true);
     setErrorMessage(null);
-    setStatusMessage('Solicitando pacote WASM via Next.');
+    setStatusMessage('Solicitando pacote WASM real via Next.');
     setToolStatus('loading');
 
     const clientRequestId = createRequestId();
@@ -151,7 +150,7 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
 
       setConfiguredTool(loadedConfiguration);
       setToolStatus('configured');
-      setStatusMessage('tool configurada');
+      setStatusMessage('Tool configurada com WASM real.');
       setInputError(null);
     } catch (error) {
       setToolStatus('failed');
@@ -168,13 +167,6 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
       return;
     }
 
-    const validation = validateInput(selectedToolId, inputValue);
-    if (!validation.isValid) {
-      setInputError(validation.errorMessage);
-      setErrorMessage(null);
-      return;
-    }
-
     setIsSubmitting(true);
     setInputError(null);
     setErrorMessage(null);
@@ -184,6 +176,7 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
     setRequestStartedAtIso(startedAt.toISOString());
 
     try {
+      setStatusMessage('Executando WASM no browser.');
       const result = await runtimeAdapter.execute(
         {
           toolId: selectedToolId,
@@ -192,7 +185,7 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
         configuredTool,
       );
       setOutputValue(result.outputText);
-      setStatusMessage('Conversão concluída localmente no browser.');
+      setStatusMessage('Conversão concluída pelo WASM baixado via gRPC.');
       setRequestDurationMs(Date.now() - startedAt.getTime());
     } catch (error) {
       setErrorMessage(getErrorMessage(error));

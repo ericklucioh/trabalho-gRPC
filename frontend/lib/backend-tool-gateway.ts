@@ -3,43 +3,26 @@ import 'server-only';
 import { API_VERSION, type PrepareToolRequest, type PrepareToolResponse, type ToolId, type ToolManifest, type ToolSummary } from './contracts';
 import { encodeBase64 } from './base64';
 import { getToolCatalogMetadata } from './tool-metadata';
-import { getMockModuleBytes, getMockManifest, listMockTools, prepareMockTool } from './mock-tool-catalog';
 import { type BrowserToolSummary, getToolPackageFromGo, listToolsFromGo } from './go-grpc-client';
 
 export async function listBrowserTools(): Promise<ToolSummary[]> {
-  try {
-    const tools = await listToolsFromGo();
-    return tools.map(enrichToolSummary);
-  } catch {
-    return listMockTools();
-  }
+  const tools = await listToolsFromGo();
+  return tools.map(enrichToolSummary);
 }
 
 export async function prepareBrowserTool(request: PrepareToolRequest): Promise<PrepareToolResponse> {
-  try {
-    const toolPackage = await getToolPackageFromGo(request.toolId);
-    return toPrepareResponse(toolPackage);
-  } catch {
-    return prepareMockTool(request);
-  }
+  const toolPackage = await getToolPackageFromGo(request.toolId);
+  return toPrepareResponse(toolPackage);
 }
 
 export async function readBrowserToolManifest(toolId: ToolId): Promise<ToolManifest> {
-  try {
-    const toolPackage = await getToolPackageFromGo(toolId);
-    return toManifest(toolPackage);
-  } catch {
-    return getMockManifest(toolId);
-  }
+  const toolPackage = await getToolPackageFromGo(toolId);
+  return toManifest(toolPackage);
 }
 
 export async function readBrowserToolPackage(toolId: ToolId): Promise<Uint8Array> {
-  try {
-    const toolPackage = await getToolPackageFromGo(toolId);
-    return toolPackage.wasmBytes;
-  } catch {
-    return getMockModuleBytes(toolId);
-  }
+  const toolPackage = await getToolPackageFromGo(toolId);
+  return toolPackage.wasmBytes;
 }
 
 function enrichToolSummary(tool: BrowserToolSummary): ToolSummary {

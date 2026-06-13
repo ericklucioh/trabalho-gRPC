@@ -20,10 +20,10 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install Rust 1.78.0
+      - name: Install Rust 1.96.0
         uses: dtolnay/rust-toolchain@master
         with:
-          toolchain: 1.78.0
+          toolchain: 1.96.0
           targets: wasm32-unknown-unknown
 
       - name: Cache cargo

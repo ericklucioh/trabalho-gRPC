@@ -16,11 +16,10 @@ export default function HomePage() {
     <main className="page-shell">
       <section className="hero">
         <span className="eyebrow">Lojinha WASM</span>
-        <h1>Frontend pronto para a demo, com contratos tipados e adapter mockável.</h1>
+        <h1>Frontend pronto para a demo, com contratos tipados e WASM real via gRPC.</h1>
         <p>
-          A interface já conversa com as rotas do Next, que tentam o backend gRPC e caem em fallback local quando ele
-          estiver fora. A UI marca a tool como configurada e executa a conversão local no browser sem reescrever a
-          camada visual.
+          A interface conversa com as rotas do Next, que pedem o pacote WASM ao backend gRPC, instanciam o módulo no
+          browser e executam a conversão sem caminho alternativo em JavaScript.
         </p>
         <div className="badge-row">
           <StatusBadge label={`Tool atual: ${workbench.selectedToolLabel}`} tone={workbench.isConfigured ? 'success' : 'warning'} />
@@ -36,7 +35,7 @@ export default function HomePage() {
             <div className="panel-header">
               <h2 className="panel-title">Configuração</h2>
               <p className="panel-subtitle">
-                Clique para simular a busca do manifest, o download do módulo e a ativação da tool no browser.
+                Clique para buscar o manifest, baixar o módulo e ativar a tool executando o WASM de verdade.
               </p>
             </div>
             <div className="panel-body">
@@ -50,7 +49,7 @@ export default function HomePage() {
                   }}
                 />
                 {workbench.isCatalogLoading ? <LoadingIndicator label="Carregando catálogo inicial..." /> : null}
-                {workbench.isConfiguring ? <LoadingIndicator label="Recebendo pacote WASM simulado..." /> : null}
+                {workbench.isConfiguring ? <LoadingIndicator label="Recebendo pacote WASM real..." /> : null}
               </div>
             </div>
           </section>

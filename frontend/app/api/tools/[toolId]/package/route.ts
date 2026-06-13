@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
-import { API_VERSION, type ToolId } from '../../../../lib/contracts';
-import { readBrowserToolPackage } from '../../../../lib/backend-tool-gateway';
+import { API_VERSION, type ToolId } from '../../../../../lib/contracts';
+import { readBrowserToolPackage } from '../../../../../lib/backend-tool-gateway';
 
 export const runtime = 'nodejs';
 

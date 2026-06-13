@@ -12,7 +12,7 @@ export function ToolList({ tools, selectedToolId, onSelectTool }: ToolListProps)
     <section className="panel">
       <div className="panel-header">
         <h2 className="panel-title">Tools disponíveis</h2>
-        <p className="panel-subtitle">Selecione uma tool do catálogo MVP. O adapter mockado já entrega a preparação simulada.</p>
+        <p className="panel-subtitle">Selecione uma tool do catálogo MVP. A preparação agora vem do backend gRPC real.</p>
       </div>
       <div className="panel-body">
         <div className="tool-grid">
