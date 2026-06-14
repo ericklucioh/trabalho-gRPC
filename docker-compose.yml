@@ -1,11 +1,12 @@
 services:
-  tools:
+  seed-artifacts:
     image: alpine:3.20
     command:
       - sh
       - -lc
       - mkdir -p /artifacts && cp -R /seed-artifacts/. /artifacts/ && ls -R /artifacts
     volumes:
+      # Seed the shared volume with the WASM modules that Go will serve.
       - ./backend/artifacts:/seed-artifacts:ro
       - artifacts:/artifacts
     restart: "no"
@@ -15,7 +16,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     depends_on:
-      tools:
+      seed-artifacts:
         condition: service_completed_successfully
     environment:
       API_VERSION: v1
@@ -25,6 +26,7 @@ services:
     ports:
       - "50051:50051"
     volumes:
+      # Read-only mount used by the Go backend to load and checksum the WASM bytes.
       - artifacts:/artifacts:ro
 
   front:
@@ -35,6 +37,8 @@ services:
       back:
         condition: service_started
     environment:
+      # Next fetches the WASM package from the Go backend over gRPC, then exposes
+      # it to the browser through the prepare/package routes.
       GRPC_ENDPOINT: back:50051
       NEXT_TELEMETRY_DISABLED: "1"
       HOSTNAME: 0.0.0.0

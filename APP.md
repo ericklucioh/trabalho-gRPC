@@ -31,10 +31,11 @@ O sistema pode ser dividido em 4 partes:
 
 1. O usuário escolhe um app na lojinha.
 2. O frontend envia a requisição para a API principal.
-3. A API valida o pedido e encaminha para o serviço responsável.
-4. O serviço acessa ou coordena o módulo WASM correto.
-5. O resultado volta para a API.
-6. A API devolve a resposta para o frontend.
+3. A API valida o pedido e encaminha para o serviço responsável via gRPC.
+4. O serviço lê o módulo WASM armazenado no volume compartilhado.
+5. O backend devolve os bytes do módulo, checksum e tamanho para o Next.
+6. O Next expõe esses bytes ao browser, que baixa e executa o WASM.
+7. O resultado volta para a interface.
 
 ## Papel de Cada Camada
 
@@ -69,6 +70,7 @@ O sistema pode ser dividido em 4 partes:
 - ficam isolados do restante do sistema
 - podem ser reutilizados por diferentes apps
 - ajudam a manter portabilidade e previsibilidade
+- são transferidos do backend para o Next e depois para o browser na demo
 
 ## Apps da Lojinha
 
@@ -134,4 +136,3 @@ Uma demonstração boa para apresentação pode seguir este roteiro:
 A ideia principal não é construir só um conversor isolado.
 
 A proposta é mostrar uma plataforma modular de ferramentas WASM, onde cada app resolve uma tarefa pequena, e o backend com gRPC organiza o fluxo entre os serviços.
-

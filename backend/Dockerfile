@@ -15,4 +15,6 @@ ENV SHUTDOWN_TIMEOUT_SECONDS=5
 
 EXPOSE 50051
 
+# The container expects the WASM artifacts to arrive through the shared
+# /artifacts mount provided by docker-compose.
 CMD ["/usr/local/go/bin/go", "run", "./cmd/server"]

@@ -46,8 +46,9 @@
 - Browser talks to `Next` through REST.
 - Browser may use WebSocket only for optional progress updates.
 - `Next` talks to `Go` through gRPC.
-- `Go` returns tool metadata, manifest data, and artifact location data.
-- Browser downloads the WASM artifact from the URL returned by the flow.
+- `Go` returns tool metadata and the WASM bytes for the selected tool.
+- `Next` exposes those bytes through a browser route for download/inspection.
+- Browser downloads the WASM artifact from the Next route returned by the flow.
 - Browser reuses a cached module only when the manifest version still matches.
 
 ## Transport Overview
@@ -55,6 +56,7 @@
 - Browser -> `Next`: `GET` for tool list, `POST` for prepare/configure, optional WebSocket for status.
 - `Next` -> `Go`: unary gRPC calls.
 - Browser -> artifact URL: HTTP download of the WASM module.
+- The artifact URL is a Next endpoint backed by the Go gRPC response.
 
 ## Browser And Next Contract
 
