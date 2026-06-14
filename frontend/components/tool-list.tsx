@@ -1,5 +1,4 @@
 import { type ToolId, type ToolSummary } from '../lib/contracts';
-import { ToolCard } from './tool-card';
 
 interface ToolListProps {
   tools: ToolSummary[];
@@ -17,7 +16,19 @@ export function ToolList({ tools, selectedToolId, onSelectTool }: ToolListProps)
       <div className="panel-body">
         <div className="tool-grid">
           {tools.map((tool) => (
-            <ToolCard key={tool.toolId} isSelected={selectedToolId === tool.toolId} onSelect={onSelectTool} tool={tool} />
+            <button
+              key={tool.toolId}
+              className="tool-card"
+              data-selected={selectedToolId === tool.toolId}
+              onClick={() => onSelectTool(tool.toolId)}
+              type="button"
+            >
+              <div className="tool-card-title">
+                <span>{tool.displayName}</span>
+                <span className="tool-card-meta">{tool.latestVersion}</span>
+              </div>
+              <p className="tool-card-description">{tool.description}</p>
+            </button>
           ))}
         </div>
       </div>

@@ -5,9 +5,8 @@ import { ErrorBanner } from '../components/error-banner';
 import { LoadingIndicator } from '../components/loading-indicator';
 import { StatusBadge } from '../components/status-badge';
 import { ToolConfigureButton } from '../components/tool-configure-button';
-import { ToolInputForm } from '../components/tool-input-form';
 import { ToolList } from '../components/tool-list';
-import { ToolOutputPanel } from '../components/tool-output-panel';
+import { ToolWorkbenchPanel } from '../components/tool-workbench-panel';
 
 export default function HomePage() {
   const workbench = useToolWorkbench();
@@ -46,19 +45,16 @@ export default function HomePage() {
 
         <div className="stack">
           {workbench.errorMessage ? <ErrorBanner message={workbench.errorMessage} /> : null}
-          <ToolInputForm
+          <ToolWorkbenchPanel
             inputError={workbench.inputError}
             inputValue={workbench.inputValue}
+            outputValue={workbench.outputValue}
             isConfigured={workbench.isConfigured}
             isSubmitting={workbench.isSubmitting}
             onChangeInput={workbench.setInputValue}
             onSubmit={() => {
               void workbench.submitInput();
             }}
-          />
-          <ToolOutputPanel
-            isConfigured={workbench.isConfigured}
-            outputValue={workbench.outputValue}
           />
         </div>
       </div>
