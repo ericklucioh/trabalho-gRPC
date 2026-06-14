@@ -2,9 +2,7 @@ import {
   API_VERSION,
   type PrepareToolRequest,
   type PrepareToolResponse,
-  type ToolConfiguration,
   type ToolId,
-  type ToolManifest,
   type ToolSummary,
 } from './contracts';
 import { decodeBase64 } from './base64';
@@ -43,21 +41,6 @@ export function buildPrepareRequest(toolId: ToolId, clientRequestId: string): Pr
     toolId,
     clientRequestId,
     preferClientWasm: true,
-  };
-}
-
-export function toToolConfiguration(
-  request: PrepareToolResponse,
-  manifest: ToolManifest,
-  moduleBytes: Uint8Array,
-): ToolConfiguration {
-  return {
-    toolId: request.toolId,
-    toolLabel: request.displayName,
-    manifest,
-    moduleBytes,
-    isConfigured: false,
-    configuredAtIso: new Date().toISOString(),
   };
 }
 

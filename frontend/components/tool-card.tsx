@@ -14,10 +14,6 @@ export function ToolCard({ tool, isSelected, onSelect }: ToolCardProps) {
         <span className="tool-card-meta">{tool.latestVersion}</span>
       </div>
       <p className="tool-card-description">{tool.description}</p>
-      <div className="badge-row">
-        <span className="status-badge">{tool.executionMode}</span>
-        <span className="status-badge">{tool.supportedMimeTypes.join(', ')}</span>
-      </div>
     </button>
   );
 }

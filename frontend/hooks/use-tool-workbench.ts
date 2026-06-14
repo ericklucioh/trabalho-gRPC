@@ -11,7 +11,6 @@ import {
 } from '../lib/contracts';
 import { buildPrepareRequest, decodeToolBytes, httpToolCatalogAdapter, type ToolCatalogAdapter } from '../lib/tool-catalog';
 import { WasmToolRuntimeAdapter, type ToolRuntimeAdapter } from '../lib/tool-runtime';
-import { getToolCatalogMetadata } from '../lib/tool-metadata';
 
 const defaultRuntimeAdapter = new WasmToolRuntimeAdapter();
 
@@ -33,9 +32,6 @@ export interface UseToolWorkbenchReturn {
   errorMessage: string | null;
   inputValue: string;
   outputValue: string;
-  requestId: string | null;
-  requestStartedAtIso: string | null;
-  requestDurationMs: number | null;
   configuredTool: ToolConfiguration | null;
   inputError: string | null;
   selectTool: (toolId: ToolId) => void;
@@ -59,9 +55,6 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [outputValue, setOutputValue] = useState('');
-  const [requestId, setRequestId] = useState<string | null>(null);
-  const [requestStartedAtIso, setRequestStartedAtIso] = useState<string | null>(null);
-  const [requestDurationMs, setRequestDurationMs] = useState<number | null>(null);
   const [inputError, setInputError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -109,9 +102,6 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
     setOutputValue('');
     setErrorMessage(null);
     setInputError(null);
-    setRequestId(null);
-    setRequestStartedAtIso(null);
-    setRequestDurationMs(null);
     setStatusMessage(`Tool selecionada: ${toolId}.`);
     setToolStatus('ready');
   }
@@ -171,9 +161,6 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
     setInputError(null);
     setErrorMessage(null);
     setOutputValue('');
-    setRequestId(createRequestId());
-    const startedAt = new Date();
-    setRequestStartedAtIso(startedAt.toISOString());
 
     try {
       setStatusMessage('Executando WASM no browser.');
@@ -186,11 +173,9 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
       );
       setOutputValue(result.outputText);
       setStatusMessage('Conversão concluída pelo WASM baixado via gRPC.');
-      setRequestDurationMs(Date.now() - startedAt.getTime());
     } catch (error) {
       setErrorMessage(getErrorMessage(error));
       setStatusMessage('Falha ao processar a entrada.');
-      setRequestDurationMs(Date.now() - startedAt.getTime());
     } finally {
       setIsSubmitting(false);
     }
@@ -209,9 +194,6 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
     errorMessage,
     inputValue,
     outputValue,
-    requestId,
-    requestStartedAtIso,
-    requestDurationMs,
     configuredTool,
     inputError,
     selectTool,
@@ -230,17 +212,16 @@ function getErrorMessage(error: unknown): string {
 }
 
 function buildToolManifest(prepareResponse: Awaited<ReturnType<ToolCatalogAdapter['prepareTool']>>): ToolManifest {
-  const metadata = getToolCatalogMetadata(prepareResponse.toolId);
   return {
     apiVersion: API_VERSION,
     toolId: prepareResponse.toolId,
     toolName: prepareResponse.displayName,
     moduleVersion: prepareResponse.moduleVersion,
     entrypoint: prepareResponse.entrypoint,
-    inputKind: metadata.inputKind,
-    outputKind: metadata.outputKind,
+    inputKind: prepareResponse.inputKind,
+    outputKind: prepareResponse.outputKind,
     supportedMimeTypes: prepareResponse.supportedMimeTypes,
-    cacheTtlSeconds: 300,
+    cacheTtlSeconds: prepareResponse.cacheTtlSeconds,
     moduleSha256: prepareResponse.moduleSha256,
     moduleSizeBytes: prepareResponse.moduleSizeBytes,
   };

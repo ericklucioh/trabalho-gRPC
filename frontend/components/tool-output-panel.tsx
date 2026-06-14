@@ -1,18 +1,9 @@
 interface ToolOutputPanelProps {
   outputValue: string;
-  requestDurationMs: number | null;
-  requestStartedAtIso: string | null;
-  requestId: string | null;
   isConfigured: boolean;
 }
 
-export function ToolOutputPanel({
-  outputValue,
-  requestDurationMs,
-  requestStartedAtIso,
-  requestId,
-  isConfigured,
-}: ToolOutputPanelProps) {
+export function ToolOutputPanel({ outputValue, isConfigured }: ToolOutputPanelProps) {
   return (
     <section className="panel">
       <div className="panel-header">
@@ -23,9 +14,6 @@ export function ToolOutputPanel({
         <div className="output-box">
           <div className="metadata-row">
             <span>{isConfigured ? 'tool configurada' : 'aguardando configuração'}</span>
-            {requestId ? <span>Request: {requestId}</span> : null}
-            {requestStartedAtIso ? <span>Início: {new Date(requestStartedAtIso).toLocaleTimeString('pt-BR')}</span> : null}
-            {requestDurationMs != null ? <span>Duração: {requestDurationMs} ms</span> : null}
           </div>
           <pre>{outputValue || 'O resultado convertido aparecerá aqui.'}</pre>
         </div>

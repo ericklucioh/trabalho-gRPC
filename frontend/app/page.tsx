@@ -16,14 +16,10 @@ export default function HomePage() {
     <main className="page-shell">
       <section className="hero">
         <span className="eyebrow">Lojinha WASM</span>
-        <h1>Frontend pronto para a demo, com contratos tipados e WASM real via gRPC.</h1>
-        <p>
-          A interface conversa com as rotas do Next, que pedem o pacote WASM ao backend gRPC, instanciam o módulo no
-          browser e executam a conversão sem caminho alternativo em JavaScript.
-        </p>
+        <h1>Demo funcional com gRPC entre Next e Go.</h1>
+        <p>Selecione uma tool, busque o pacote no backend, baixe o WASM e execute a conversão no browser.</p>
         <div className="badge-row">
           <StatusBadge label={`Tool atual: ${workbench.selectedToolLabel}`} tone={workbench.isConfigured ? 'success' : 'warning'} />
-          <StatusBadge label={`Status: ${workbench.toolStatus}`} tone={workbench.toolStatus === 'failed' ? 'danger' : workbench.isConfigured ? 'success' : 'neutral'} />
           <StatusBadge label={workbench.statusMessage} tone={workbench.errorMessage ? 'danger' : 'neutral'} />
         </div>
       </section>
@@ -40,14 +36,7 @@ export default function HomePage() {
             </div>
             <div className="panel-body">
               <div className="configure-box">
-                <ToolConfigureButton
-                  isDisabled={workbench.isCatalogLoading || workbench.isConfiguring || workbench.selectedToolId === null}
-                  isLoading={workbench.isConfiguring}
-                  label="Configurar tool"
-                  onClick={() => {
-                    void workbench.configureSelectedTool();
-                  }}
-                />
+                <ToolConfigureButton isDisabled={workbench.isCatalogLoading || workbench.isConfiguring || workbench.selectedToolId === null} isLoading={workbench.isConfiguring} label="Configurar tool" onClick={() => { void workbench.configureSelectedTool(); }} />
                 {workbench.isCatalogLoading ? <LoadingIndicator label="Carregando catálogo inicial..." /> : null}
                 {workbench.isConfiguring ? <LoadingIndicator label="Recebendo pacote WASM real..." /> : null}
               </div>
@@ -70,9 +59,6 @@ export default function HomePage() {
           <ToolOutputPanel
             isConfigured={workbench.isConfigured}
             outputValue={workbench.outputValue}
-            requestId={workbench.requestId}
-            requestDurationMs={workbench.requestDurationMs}
-            requestStartedAtIso={workbench.requestStartedAtIso}
           />
         </div>
       </div>

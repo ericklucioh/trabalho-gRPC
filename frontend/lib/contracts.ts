@@ -1,12 +1,8 @@
 export const API_VERSION = 'v1' as const;
 
 export type ToolId = 'json2yaml' | 'yaml2json';
-export type ToolExecutionMode = 'client_wasm';
-export type ToolInputKind = 'text';
-export type ToolOutputKind = 'text';
 export type ToolStatus = 'idle' | 'loading' | 'ready' | 'configured' | 'failed';
 export type ResultFormat = 'json' | 'yaml';
-export type ParsedContentKind = 'json' | 'yaml';
 
 export interface TypedError {
   code: string;
@@ -20,10 +16,6 @@ export interface ToolSummary {
   displayName: string;
   description: string;
   latestVersion: string;
-  inputKind: ToolInputKind;
-  outputKind: ToolOutputKind;
-  executionMode: ToolExecutionMode;
-  supportedMimeTypes: string[];
 }
 
 export interface ToolManifest {
@@ -32,8 +24,8 @@ export interface ToolManifest {
   toolName: string;
   moduleVersion: string;
   entrypoint: string;
-  inputKind: ToolInputKind;
-  outputKind: ToolOutputKind;
+  inputKind: string;
+  outputKind: string;
   supportedMimeTypes: string[];
   cacheTtlSeconds: number;
   moduleSha256: string;
@@ -56,11 +48,12 @@ export interface PrepareToolResponse {
   toolId: ToolId;
   displayName: string;
   entrypoint: string;
+  inputKind: string;
+  outputKind: string;
   status: 'ready' | 'loading' | 'rejected' | 'failed';
   statusMessage: string;
-  manifestUrl: string;
-  downloadUrl: string;
   moduleVersion: string;
+  cacheTtlSeconds: number;
   moduleSha256: string;
   moduleSizeBytes: number;
   supportedMimeTypes: string[];
@@ -99,8 +92,5 @@ export interface ToolWorkbenchSnapshot {
   errorMessage: string | null;
   inputValue: string;
   outputValue: string;
-  requestId: string | null;
-  requestStartedAtIso: string | null;
-  requestDurationMs: number | null;
   configuredTool: ToolConfiguration | null;
 }
