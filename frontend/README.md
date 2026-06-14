@@ -7,7 +7,7 @@ Frontend Next.js da demo da Lojinha WASM.
 - Uma tela única.
 - Duas tools no catálogo MVP.
 - Browser falando com rotas do Next.
-- Next resolvendo catálogo, manifest e pacote via backend gRPC.
+- Next resolvendo catálogo e pacote via backend gRPC.
 - Recebimento do pacote WASM codificado em base64 no fluxo de preparação.
 - Conversão no browser executando o WASM baixado do backend.
 

@@ -23,7 +23,7 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	service := application.NewService(catalog.NewStaticCatalog(), artifacts.NewFileSystemReader(cfg.ArtifactRoot))
+	service := application.NewService(catalog.NewFilesystemCatalog(cfg.ArtifactRoot), artifacts.NewFileSystemReader(cfg.ArtifactRoot))
 	handler := grpctransport.NewHandler(service)
 	server := grpctransport.NewServer(cfg, handler)
 

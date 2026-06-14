@@ -1,4 +1,4 @@
-import { type ResultFormat, type ToolConfiguration, type ToolExecutionRequest, type ToolExecutionResult, type ToolId } from './contracts';
+import { type ToolConfiguration, type ToolExecutionRequest, type ToolExecutionResult, type ToolId } from './contracts';
 
 export interface ToolRuntimeAdapter {
   loadToolPackage(configuration: ToolConfiguration): Promise<ToolConfiguration>;
@@ -65,7 +65,6 @@ export class WasmToolRuntimeAdapter implements ToolRuntimeAdapter {
 
       return {
         outputText,
-        outputFormat: getOutputFormat(request.toolId),
       };
     } finally {
       session.free(inputPtr, inputAllocationSize);
@@ -92,7 +91,7 @@ async function instantiateWasmTool(configuration: ToolConfiguration): Promise<Wa
   const lastErrorPtr = toExportedFunction(exports.last_error_ptr, 'last_error_ptr', configuration.toolId);
   const lastErrorLen = toExportedFunction(exports.last_error_len, 'last_error_len', configuration.toolId);
 
-    return {
+  return {
     exports: {
       memory,
       wasm_alloc: alloc,
@@ -151,8 +150,4 @@ function readLastError(session: WasmToolSession): string {
 
   const bytes = new Uint8Array(session.memory.buffer, ptr, length);
   return new TextDecoder().decode(bytes);
-}
-
-function getOutputFormat(toolId: ToolId): ResultFormat {
-  return toolId === 'json2yaml' ? 'yaml' : 'json';
 }

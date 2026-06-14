@@ -19,7 +19,6 @@ services:
       seed-artifacts:
         condition: service_completed_successfully
     environment:
-      API_VERSION: v1
       ARTIFACT_ROOT: /artifacts
       GRPC_PORT: "50051"
       SHUTDOWN_TIMEOUT_SECONDS: "5"
@@ -38,7 +37,7 @@ services:
         condition: service_started
     environment:
       # Next fetches the WASM package from the Go backend over gRPC, then exposes
-      # it to the browser through the prepare/package routes.
+      # it to the browser through the prepare route.
       GRPC_ENDPOINT: back:50051
       NEXT_TELEMETRY_DISABLED: "1"
       HOSTNAME: 0.0.0.0

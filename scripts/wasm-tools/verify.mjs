@@ -21,11 +21,9 @@ function verifyTool(tool) {
   const outputDir = join(outputRoot, tool.toolId);
   const wasmFile = join(outputDir, 'module.wasm');
   const manifestFile = join(outputDir, 'manifest.json');
-  const metadataFile = join(outputDir, 'metadata.json');
   const checksumFile = join(outputDir, 'sha256.txt');
   const wasmBytes = readFileSync(wasmFile);
   const manifest = readJson(manifestFile);
-  const metadata = readJson(metadataFile);
   const checksum = readFileSync(checksumFile, 'utf8').trim();
   const computedChecksum = sha256Hex(wasmBytes);
 
@@ -55,10 +53,6 @@ function verifyTool(tool) {
     throw new Error(`Manifest size mismatch for ${tool.toolId}`);
   }
 
-  if (manifest.module_url !== './module.wasm') {
-    throw new Error(`Unexpected module_url for ${tool.toolId}: ${manifest.module_url}`);
-  }
-
   if (manifest.entrypoint !== tool.entrypoint) {
     throw new Error(`Unexpected entrypoint for ${tool.toolId}: ${manifest.entrypoint}`);
   }
@@ -67,8 +61,8 @@ function verifyTool(tool) {
     throw new Error(`Unexpected cache_ttl_seconds for ${tool.toolId}`);
   }
 
-  if (metadata.tool_id !== tool.toolId || metadata.crate_name !== tool.crateName) {
-    throw new Error(`Metadata mismatch for ${tool.toolId}`);
+  if (manifest.artifact_path !== tool.artifactPath) {
+    throw new Error(`Unexpected artifact_path for ${tool.toolId}: ${manifest.artifact_path}`);
   }
 
   console.log(`verified ${tool.toolId} -> ${wasmFile}`);

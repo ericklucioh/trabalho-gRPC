@@ -1,8 +1,7 @@
 export const API_VERSION = 'v1' as const;
 
-export type ToolId = 'json2yaml' | 'yaml2json';
+export type ToolId = string;
 export type ToolStatus = 'idle' | 'loading' | 'ready' | 'configured' | 'failed';
-export type ResultFormat = 'json' | 'yaml';
 
 export interface TypedError {
   code: string;
@@ -68,7 +67,6 @@ export interface ToolExecutionRequest {
 
 export interface ToolExecutionResult {
   outputText: string;
-  outputFormat: ResultFormat;
 }
 
 export interface ToolConfiguration {

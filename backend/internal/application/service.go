@@ -33,8 +33,14 @@ func (s *Service) ListTools(ctx context.Context, request domain.ListToolsRequest
 		return domain.ListToolsResult{}, err
 	}
 
-	if err := domain.ValidateRequestHeader(request.APIVersion, request.ClientRequestID); err != nil {
-		return domain.ListToolsResult{}, err
+	if request.APIVersion != domain.SupportedAPIVersion {
+		return domain.ListToolsResult{}, domain.NewError(
+			domain.ErrorCodeUnsupportedVersion,
+			"api version is not supported",
+			request.APIVersion,
+			domain.SupportedAPIVersion,
+			nil,
+		)
 	}
 
 	entries, err := s.catalogStore.ListTools(ctx)
@@ -62,21 +68,19 @@ func (s *Service) GetToolPackage(ctx context.Context, request domain.GetToolPack
 		return domain.ToolPackage{}, err
 	}
 
-	if err := domain.ValidateRequestHeader(request.APIVersion, request.ClientRequestID); err != nil {
-		return domain.ToolPackage{}, err
-	}
-
-	if err := domain.ValidateToolID(request.ToolID); err != nil {
-		return domain.ToolPackage{}, err
+	if request.APIVersion != domain.SupportedAPIVersion {
+		return domain.ToolPackage{}, domain.NewError(
+			domain.ErrorCodeUnsupportedVersion,
+			"api version is not supported",
+			request.APIVersion,
+			domain.SupportedAPIVersion,
+			nil,
+		)
 	}
 
 	entry, err := s.catalogStore.FindTool(ctx, request.ToolID)
 	if err != nil {
 		return domain.ToolPackage{}, wrapCatalogError(request.ToolID, err)
-	}
-
-	if err := domain.ValidateArtifactPath(entry.ArtifactPath); err != nil {
-		return domain.ToolPackage{}, err
 	}
 
 	bytes, err := s.artifactRead.Read(ctx, entry.ArtifactPath)
@@ -109,7 +113,7 @@ func buildToolPackage(entry domain.ToolCatalogEntry, wasmBytes []byte) domain.To
 
 func wrapCatalogError(toolID string, err error) error {
 	if errors.Is(err, ErrNotFound) {
-		return domain.NewError(domain.ErrorCodeToolNotFound, "tool is not supported", toolID, "json2yaml or yaml2json", err)
+		return domain.NewError(domain.ErrorCodeToolNotFound, "tool is not supported", toolID, "registered tool id", err)
 	}
 
 	return domain.NewError(domain.ErrorCodeInternal, "catalog lookup failed", toolID, "catalog entry", err)

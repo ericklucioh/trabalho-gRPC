@@ -1,0 +1,17 @@
+{
+  "api_version": "v1",
+  "tool_id": "yaml2json",
+  "tool_name": "YAML to JSON",
+  "description": "Convert YAML text into formatted JSON text.",
+  "module_version": "0.1.0",
+  "entrypoint": "convert_yaml_to_json",
+  "input_kind": "text",
+  "output_kind": "text",
+  "supported_mime_types": [
+    "application/yaml",
+    "text/yaml",
+    "text/plain"
+  ],
+  "cache_ttl_seconds": 86400,
+  "artifact_path": "module.wasm"
+}

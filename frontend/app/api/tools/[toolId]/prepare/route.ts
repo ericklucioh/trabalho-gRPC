@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
-import { API_VERSION, type PrepareToolRequest, type ToolId } from '../../../../../lib/contracts';
+import { API_VERSION, type PrepareToolRequest } from '../../../../../lib/contracts';
 import { prepareBrowserTool } from '../../../../../lib/backend-tool-gateway';
 
 export const runtime = 'nodejs';
@@ -11,21 +11,6 @@ interface RouteContext {
 
 export async function POST(request: NextRequest, context: RouteContext): Promise<Response> {
   const toolId = context.params.toolId;
-  if (!isToolId(toolId)) {
-    return NextResponse.json(
-      {
-        apiVersion: API_VERSION,
-        error: {
-          code: 'NOT_FOUND',
-          message: `Unknown tool_id ${toolId}.`,
-          offendingValue: toolId,
-          expectedShape: 'json2yaml | yaml2json',
-        },
-      },
-      { status: 404 },
-    );
-  }
-
   try {
     const body = await request.json();
     const preparedRequest = validateRequest(body, toolId);
@@ -47,7 +32,7 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
   }
 }
 
-function validateRequest(body: unknown, toolId: ToolId): PrepareToolRequest {
+function validateRequest(body: unknown, toolId: string): PrepareToolRequest {
   if (!isObject(body)) {
     throw new Error('Expected JSON request body.');
   }
@@ -75,10 +60,6 @@ function readString(value: unknown, fieldName: string): string {
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
-}
-
-function isToolId(value: string): value is ToolId {
-  return value === 'json2yaml' || value === 'yaml2json';
 }
 
 function getErrorMessage(error: unknown): string {

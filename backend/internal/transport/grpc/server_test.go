@@ -2,7 +2,9 @@ package grpctransport
 
 import (
 	"context"
+	"encoding/json"
 	"net"
+	"os"
 	"path/filepath"
 	"testing"
 
@@ -10,7 +12,6 @@ import (
 	"github.com/erick/projs/trabalho-grpc/internal/adapters/artifacts"
 	"github.com/erick/projs/trabalho-grpc/internal/adapters/catalog"
 	"github.com/erick/projs/trabalho-grpc/internal/application"
-	"github.com/erick/projs/trabalho-grpc/internal/config"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/test/bufconn"
@@ -52,9 +53,12 @@ func TestGRPCContractListsToolsAndReturnsPackage(t *testing.T) {
 func startBufferedServer(t *testing.T) (*grpc.ClientConn, func()) {
 	t.Helper()
 
+	root := t.TempDir()
+	writeToolFixture(t, root, "json2yaml", "JSON to YAML", "Convert JSON text into YAML text.", "json2yaml/module.wasm", sampleWASMBytes())
+	writeToolFixture(t, root, "yaml2json", "YAML to JSON", "Convert YAML text into JSON text.", "yaml2json/module.wasm", sampleWASMBytes())
+
 	lis := bufconn.Listen(1 << 20)
-	cfg := config.Config{GRPCPort: "0", ArtifactRoot: filepath.Join("..", "..", "..", "artifacts"), APIVersion: "v1"}
-	service := application.NewService(catalog.NewStaticCatalog(), artifacts.NewFileSystemReader(cfg.ArtifactRoot))
+	service := application.NewService(catalog.NewFilesystemCatalog(root), artifacts.NewFileSystemReader(root))
 	server := grpc.NewServer()
 	lojinhawasmv1.RegisterToolCatalogServiceServer(server, NewHandler(service))
 
@@ -73,5 +77,64 @@ func startBufferedServer(t *testing.T) (*grpc.ClientConn, func()) {
 	return conn, func() {
 		_ = conn.Close()
 		server.Stop()
+	}
+}
+
+func writeToolFixture(t *testing.T, root, toolID, toolName, description, artifactPath string, wasmBytes []byte) {
+	t.Helper()
+
+	toolDir := filepath.Join(root, toolID)
+	if err := os.MkdirAll(toolDir, 0o755); err != nil {
+		t.Fatalf("mkdir failed: %v", err)
+	}
+
+	artifactFile := filepath.Join(toolDir, artifactPath)
+	if err := os.MkdirAll(filepath.Dir(artifactFile), 0o755); err != nil {
+		t.Fatalf("mkdir artifact dir failed: %v", err)
+	}
+
+	if err := os.WriteFile(artifactFile, wasmBytes, 0o644); err != nil {
+		t.Fatalf("write wasm failed: %v", err)
+	}
+
+	manifest := map[string]any{
+		"api_version":    "v1",
+		"tool_id":        toolID,
+		"tool_name":      toolName,
+		"description":    description,
+		"module_version": "1.0.0",
+		"entrypoint":     "convert",
+		"input_kind":     "text",
+		"output_kind":    "text",
+		"supported_mime_types": []string{
+			"application/json",
+		},
+		"cache_ttl_seconds": 86400,
+		"artifact_path":     artifactPath,
+	}
+	if toolID == "yaml2json" {
+		manifest["supported_mime_types"] = []string{"application/yaml"}
+	}
+	if err := writeJSON(filepath.Join(toolDir, "manifest.json"), manifest); err != nil {
+		t.Fatalf("write manifest failed: %v", err)
+	}
+}
+
+func writeJSON(path string, value any) error {
+	bytes, err := json.MarshalIndent(value, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	return os.WriteFile(path, append(bytes, '\n'), 0o644)
+}
+
+func sampleWASMBytes() []byte {
+	return []byte{
+		0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00,
+		0x01, 0x04, 0x01, 0x60, 0x00, 0x00,
+		0x03, 0x02, 0x01, 0x00,
+		0x07, 0x0b, 0x01, 0x07, 0x63, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x74, 0x00, 0x00,
+		0x0a, 0x04, 0x01, 0x02, 0x00, 0x0b,
 	}
 }

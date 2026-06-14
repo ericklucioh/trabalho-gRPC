@@ -48,7 +48,6 @@ function packageTool(tool) {
   const outputDir = join(outputRoot, tool.toolId);
   const outputFile = join(outputDir, 'module.wasm');
   const manifestFile = join(outputDir, 'manifest.json');
-  const metadataFile = join(outputDir, 'metadata.json');
   const checksumFile = join(outputDir, 'sha256.txt');
   const wasmBytes = readFileSync(targetFile);
   const checksum = sha256Hex(wasmBytes);
@@ -62,7 +61,6 @@ function packageTool(tool) {
     tool_name: tool.toolName,
     description: tool.description,
     module_version: tool.moduleVersion,
-    module_url: './module.wasm',
     module_sha256: checksum,
     module_size_bytes: wasmBytes.length,
     entrypoint: tool.entrypoint,
@@ -70,24 +68,10 @@ function packageTool(tool) {
     output_kind: tool.outputKind,
     supported_mime_types: tool.supportedMimeTypes,
     cache_ttl_seconds: cacheTtlSeconds,
-  };
-
-  const metadata = {
-    tool_id: tool.toolId,
-    tool_name: tool.toolName,
-    crate_name: tool.crateName,
-    crate_path: tool.cratePath,
-    module_version: tool.moduleVersion,
-    entrypoint: tool.entrypoint,
-    input_kind: tool.inputKind,
-    output_kind: tool.outputKind,
-    supported_mime_types: tool.supportedMimeTypes,
-    artifact_path: 'module.wasm',
-    wasm_target: wasmTarget,
+    artifact_path: tool.artifactPath,
   };
 
   writeJson(manifestFile, manifest);
-  writeJson(metadataFile, metadata);
   writeFileSync(checksumFile, `${checksum}\n`);
 
   console.log(

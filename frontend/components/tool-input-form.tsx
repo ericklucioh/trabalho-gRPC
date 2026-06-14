@@ -12,7 +12,7 @@ export function ToolInputForm({ inputValue, inputError, isConfigured, isSubmitti
     <section className="panel">
       <div className="panel-header">
         <h2 className="panel-title">Entrada</h2>
-        <p className="panel-subtitle">Cole JSON para json2yaml ou YAML para yaml2json. A validação acontece antes do envio.</p>
+        <p className="panel-subtitle">Cole o texto de entrada da tool selecionada. O resultado aparece abaixo.</p>
       </div>
       <div className="panel-body">
         <div className="form-grid">
@@ -23,7 +23,7 @@ export function ToolInputForm({ inputValue, inputError, isConfigured, isSubmitti
               id="tool-input"
               disabled={!isConfigured || isSubmitting}
               onChange={(event) => onChangeInput(event.target.value)}
-              placeholder='{"name":"Lojinha WASM","active":true}'
+              placeholder="Cole o texto de entrada aqui"
               value={inputValue}
             />
           </label>

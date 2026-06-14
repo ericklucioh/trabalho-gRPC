@@ -9,7 +9,6 @@ COPY gen ./gen
 COPY third_party ./third_party
 
 ENV ARTIFACT_ROOT=/artifacts
-ENV API_VERSION=v1
 ENV GRPC_PORT=50051
 ENV SHUTDOWN_TIMEOUT_SECONDS=5
 

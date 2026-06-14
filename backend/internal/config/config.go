@@ -10,7 +10,6 @@ import (
 type Config struct {
 	GRPCPort        string
 	ArtifactRoot    string
-	APIVersion      string
 	ShutdownTimeout time.Duration
 }
 
@@ -18,7 +17,6 @@ func Load() (Config, error) {
 	cfg := Config{
 		GRPCPort:        getEnv("GRPC_PORT", "50051"),
 		ArtifactRoot:    getEnv("ARTIFACT_ROOT", "./artifacts"),
-		APIVersion:      getEnv("API_VERSION", "v1"),
 		ShutdownTimeout: 5 * time.Second,
 	}
 
@@ -33,9 +31,6 @@ func Load() (Config, error) {
 	}
 	if cfg.ArtifactRoot == "" {
 		return Config{}, fmt.Errorf("ARTIFACT_ROOT must not be empty")
-	}
-	if cfg.APIVersion == "" {
-		return Config{}, fmt.Errorf("API_VERSION must not be empty")
 	}
 
 	return cfg, nil
