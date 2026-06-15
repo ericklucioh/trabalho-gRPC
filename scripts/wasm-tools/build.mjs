@@ -8,12 +8,13 @@ import {
   cacheTtlSeconds,
   cargoTargetDir,
   outputRoot,
+  tempRoot,
   toolDefinitions,
   toolsWorkspace,
   wasmTarget,
 } from './definitions.mjs';
 
-const buildRoot = join('/tmp', 'trabalho-grpc-wasm-build');
+const buildRoot = join(tempRoot, 'build');
 const buildToolsWorkspace = join(buildRoot, 'tools');
 
 function sha256Hex(buffer) {

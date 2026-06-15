@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -7,7 +8,8 @@ export const repoRoot = join(scriptDir, '..', '..');
 export const toolsWorkspace = join(repoRoot, 'tools');
 export const backendArtifactsRoot = join(repoRoot, 'backend', 'artifacts');
 export const outputRoot = process.env.WASM_OUTPUT_ROOT ?? backendArtifactsRoot;
-export const cargoTargetDir = process.env.CARGO_TARGET_DIR ?? join('/tmp', 'trabalho-grpc-wasm-target');
+export const tempRoot = join(tmpdir(), 'trabalho-grpc-wasm');
+export const cargoTargetDir = process.env.CARGO_TARGET_DIR ?? join(tempRoot, 'target');
 export const wasmTarget = 'wasm32-unknown-unknown';
 export const apiVersion = 'v1';
 export const cacheTtlSeconds = 86_400;
