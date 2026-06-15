@@ -3,8 +3,11 @@ package grpctransport
 import (
 	"context"
 	"errors"
+	"fmt"
+	"time"
 
 	"github.com/erick/projs/trabalho-grpc/gen/lojinhawasm/v1"
+	"github.com/erick/projs/trabalho-grpc/internal/adapters/logging"
 	"github.com/erick/projs/trabalho-grpc/internal/application"
 	"github.com/erick/projs/trabalho-grpc/internal/domain"
 	"google.golang.org/grpc/codes"
@@ -13,22 +16,34 @@ import (
 
 type Handler struct {
 	lojinhawasmv1.UnimplementedToolCatalogServiceServer
-	app *application.Service
+	app    *application.Service
+	logger logging.Logger
 }
 
-func NewHandler(app *application.Service) *Handler {
-	return &Handler{app: app}
+func NewHandler(app *application.Service, logger logging.Logger) *Handler {
+	if logger == nil {
+		logger = logging.NopLogger{}
+	}
+
+	return &Handler{app: app, logger: logger}
 }
 
 func (h *Handler) ListTools(ctx context.Context, request *lojinhawasmv1.ListToolsRequest) (*lojinhawasmv1.ListToolsResponse, error) {
+	startedAt := time.Now()
+	apiVersion := request.GetApiVersion()
+	clientRequestID := request.GetClientRequestId()
+	h.logRequestStart("ListTools", apiVersion, clientRequestID, "")
+
 	result, err := h.app.ListTools(ctx, domain.ListToolsRequest{
-		APIVersion:      request.GetApiVersion(),
-		ClientRequestID: request.GetClientRequestId(),
+		APIVersion:      apiVersion,
+		ClientRequestID: clientRequestID,
 	})
 	if err != nil {
+		h.logRequestError("ListTools", clientRequestID, "", startedAt, err)
 		return nil, toStatus(err)
 	}
 
+	h.logRequestSuccess("ListTools", clientRequestID, "", startedAt, "tools=%d", len(result.Tools))
 	return &lojinhawasmv1.ListToolsResponse{
 		ApiVersion: result.APIVersion,
 		Tools:      toProtoToolSummaries(result.Tools),
@@ -36,15 +51,23 @@ func (h *Handler) ListTools(ctx context.Context, request *lojinhawasmv1.ListTool
 }
 
 func (h *Handler) GetToolPackage(ctx context.Context, request *lojinhawasmv1.GetToolPackageRequest) (*lojinhawasmv1.GetToolPackageResponse, error) {
+	startedAt := time.Now()
+	apiVersion := request.GetApiVersion()
+	toolID := request.GetToolId()
+	clientRequestID := request.GetClientRequestId()
+	h.logRequestStart("GetToolPackage", apiVersion, clientRequestID, toolID)
+
 	result, err := h.app.GetToolPackage(ctx, domain.GetToolPackageRequest{
-		APIVersion:      request.GetApiVersion(),
-		ToolID:          request.GetToolId(),
-		ClientRequestID: request.GetClientRequestId(),
+		APIVersion:      apiVersion,
+		ToolID:          toolID,
+		ClientRequestID: clientRequestID,
 	})
 	if err != nil {
+		h.logRequestError("GetToolPackage", clientRequestID, toolID, startedAt, err)
 		return nil, toStatus(err)
 	}
 
+	h.logRequestSuccess("GetToolPackage", clientRequestID, toolID, startedAt, "wasm_size_bytes=%d sha256=%s", result.WASMSizeBytes, result.WASMSHA256)
 	return &lojinhawasmv1.GetToolPackageResponse{
 		ApiVersion:         result.APIVersion,
 		ToolId:             result.ToolID,
@@ -60,6 +83,46 @@ func (h *Handler) GetToolPackage(ctx context.Context, request *lojinhawasmv1.Get
 		WasmSha256:         result.WASMSHA256,
 		WasmSizeBytes:      result.WASMSizeBytes,
 	}, nil
+}
+
+func (h *Handler) logRequestStart(method, apiVersion, clientRequestID, toolID string) {
+	h.logger.Printf(
+		"grpc request start method=%s api_version=%s client_request_id=%s tool_id=%s",
+		method,
+		apiVersion,
+		clientRequestID,
+		toolID,
+	)
+}
+
+func (h *Handler) logRequestSuccess(method, clientRequestID, toolID string, startedAt time.Time, format string, args ...interface{}) {
+	h.logger.Printf(
+		"grpc request success method=%s client_request_id=%s tool_id=%s duration=%s %s",
+		method,
+		clientRequestID,
+		toolID,
+		time.Since(startedAt).Round(time.Millisecond),
+		formatWithArgs(format, args...),
+	)
+}
+
+func (h *Handler) logRequestError(method, clientRequestID, toolID string, startedAt time.Time, err error) {
+	h.logger.Printf(
+		"grpc request error method=%s client_request_id=%s tool_id=%s duration=%s err=%v",
+		method,
+		clientRequestID,
+		toolID,
+		time.Since(startedAt).Round(time.Millisecond),
+		err,
+	)
+}
+
+func formatWithArgs(format string, args ...interface{}) string {
+	if len(args) == 0 {
+		return format
+	}
+
+	return fmt.Sprintf(format, args...)
 }
 
 func toProtoToolSummaries(tools []domain.ToolSummary) []*lojinhawasmv1.ToolSummary {

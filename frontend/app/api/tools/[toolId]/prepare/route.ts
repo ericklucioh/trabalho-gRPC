@@ -12,10 +12,20 @@ interface RouteContext {
 
 export async function POST(request: NextRequest, context: RouteContext): Promise<Response> {
   const { toolId } = await context.params;
+  const clientRequestId = crypto.randomUUID();
+
+  console.info('[frontend/api/tools/prepare] request started', {
+    toolId,
+    clientRequestId,
+  });
 
   try {
     await request.json();
   } catch (error) {
+    console.info('[frontend/api/tools/prepare] invalid request body', {
+      toolId,
+      clientRequestId,
+    });
     return badRequest(toolId, error);
   }
 
@@ -23,11 +33,20 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
     const response = await prepareBrowserTool({
       apiVersion: API_VERSION,
       toolId,
-      clientRequestId: crypto.randomUUID(),
+      clientRequestId,
       preferClientWasm: true,
+    });
+    console.info('[frontend/api/tools/prepare] request completed', {
+      toolId,
+      clientRequestId,
+      status: response.status,
     });
     return NextResponse.json(response);
   } catch (error) {
+    console.info('[frontend/api/tools/prepare] upstream error', {
+      toolId,
+      clientRequestId,
+    });
     return upstreamError(toolId, error);
   }
 }

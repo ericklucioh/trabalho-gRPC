@@ -11,6 +11,7 @@ import (
 	"github.com/erick/projs/trabalho-grpc/gen/lojinhawasm/v1"
 	"github.com/erick/projs/trabalho-grpc/internal/adapters/artifacts"
 	"github.com/erick/projs/trabalho-grpc/internal/adapters/catalog"
+	"github.com/erick/projs/trabalho-grpc/internal/adapters/logging"
 	"github.com/erick/projs/trabalho-grpc/internal/application"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -60,7 +61,7 @@ func startBufferedServer(t *testing.T) (*grpc.ClientConn, func()) {
 	lis := bufconn.Listen(1 << 20)
 	service := application.NewService(catalog.NewFilesystemCatalog(root), artifacts.NewFileSystemReader(root))
 	server := grpc.NewServer()
-	lojinhawasmv1.RegisterToolCatalogServiceServer(server, NewHandler(service))
+	lojinhawasmv1.RegisterToolCatalogServiceServer(server, NewHandler(service, logging.NopLogger{}))
 
 	go func() {
 		_ = server.Serve(lis)

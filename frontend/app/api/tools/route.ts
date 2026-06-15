@@ -7,7 +7,10 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET(): Promise<Response> {
+  console.info('[frontend/api/tools] list request started');
   const tools = await listBrowserTools();
+  console.info('[frontend/api/tools] list request completed', { toolCount: tools.length });
+
   return NextResponse.json({
     apiVersion: API_VERSION,
     tools,
