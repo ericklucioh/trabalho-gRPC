@@ -7,8 +7,9 @@ COPY cmd ./cmd
 COPY internal ./internal
 COPY gen ./gen
 COPY third_party ./third_party
+COPY vendor ./vendor
 
-RUN go build -o server ./cmd/server
+RUN go build -mod=vendor -o server ./cmd/server
 
 ENV ARTIFACT_ROOT=/artifacts
 ENV GRPC_PORT=50051
