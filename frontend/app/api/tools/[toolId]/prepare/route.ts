@@ -4,6 +4,7 @@ import { API_VERSION } from '../../../../../lib/contracts';
 import { prepareBrowserTool } from '../../../../../lib/backend-tool-gateway';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 interface RouteContext {
   params: Promise<{ toolId: string }>;

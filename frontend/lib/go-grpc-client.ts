@@ -1,7 +1,7 @@
 import 'server-only';
 
-import { loadPackageDefinition, credentials, type ChannelCredentials, type Client, type ClientOptions, type ClientUnaryCall, type PackageDefinition, type ServiceError, type ServiceClientConstructor, type UnaryCallback } from '@grpc/grpc-js';
-import { loadSync } from '@grpc/proto-loader';
+import { loadPackageDefinition, credentials, type ChannelCredentials, type Client, type ClientOptions, type ClientUnaryCall, type ServiceError, type ServiceClientConstructor, type requestCallback } from '@grpc/grpc-js';
+import { loadSync, type PackageDefinition } from '@grpc/proto-loader';
 import { join } from 'node:path';
 
 import { API_VERSION, type ToolId } from './contracts';
@@ -10,6 +10,11 @@ interface ProtoListToolsResponse {
   api_version: string;
   tools: ProtoToolSummary[];
   error?: ProtoTypedError;
+}
+
+interface ProtoListToolsRequest {
+  api_version: string;
+  client_request_id: string;
 }
 
 interface ProtoGetToolPackageResponse {
@@ -29,6 +34,12 @@ interface ProtoGetToolPackageResponse {
   error?: ProtoTypedError;
 }
 
+interface ProtoGetToolPackageRequest {
+  api_version: string;
+  tool_id: string;
+  client_request_id: string;
+}
+
 interface ProtoToolSummary {
   tool_id: string;
   display_name: string;
@@ -44,8 +55,8 @@ interface ProtoTypedError {
 }
 
 interface ToolCatalogServiceClient extends Client {
-  ListTools(request: ProtoListToolsRequest, callback: UnaryCallback<ProtoListToolsResponse>): ClientUnaryCall;
-  GetToolPackage(request: ProtoGetToolPackageRequest, callback: UnaryCallback<ProtoGetToolPackageResponse>): ClientUnaryCall;
+  ListTools(request: ProtoListToolsRequest, callback: requestCallback<ProtoListToolsResponse>): ClientUnaryCall;
+  GetToolPackage(request: ProtoGetToolPackageRequest, callback: requestCallback<ProtoGetToolPackageResponse>): ClientUnaryCall;
 }
 
 interface ProtoRoot {
@@ -164,12 +175,17 @@ async function withClient<ResponseShape>(operation: (client: ToolCatalogServiceC
 }
 
 function unaryRequest<ResponseShape>(
-  invoke: (callback: UnaryCallback<ResponseShape>) => ClientUnaryCall,
+  invoke: (callback: requestCallback<ResponseShape>) => ClientUnaryCall,
 ): Promise<ResponseShape> {
   return new Promise<ResponseShape>((resolve, reject) => {
-    invoke((error: ServiceError | null, response: ResponseShape) => {
+    invoke((error: ServiceError | null, response?: ResponseShape) => {
       if (error) {
         reject(error);
+        return;
+      }
+
+      if (response === undefined) {
+        reject(new Error('gRPC unary call returned no response'));
         return;
       }
 
