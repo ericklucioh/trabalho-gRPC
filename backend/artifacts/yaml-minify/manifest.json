@@ -1,0 +1,19 @@
+{
+  "api_version": "v1",
+  "tool_id": "yaml-minify",
+  "tool_name": "YAML Minify",
+  "description": "Normalize YAML text into a compact form.",
+  "module_version": "0.1.0",
+  "module_sha256": "8762d89c7bc518e139746b9bb7f80615502a9f8b529a23610b21ef2ec0c7de99",
+  "module_size_bytes": 321888,
+  "entrypoint": "minify_yaml",
+  "input_kind": "text",
+  "output_kind": "text",
+  "supported_mime_types": [
+    "application/yaml",
+    "text/yaml",
+    "text/plain"
+  ],
+  "cache_ttl_seconds": 86400,
+  "artifact_path": "module.wasm"
+}

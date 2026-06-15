@@ -1,0 +1,12 @@
+[package]
+name = "json-minify"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Small JSON minifier designed to be compiled to WebAssembly."
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+serde_json = "1"

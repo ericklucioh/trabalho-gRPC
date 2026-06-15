@@ -1,0 +1,12 @@
+[package]
+name = "yaml-pretty"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Small YAML pretty printer designed to be compiled to WebAssembly."
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+serde_yaml = "0.9"

@@ -4,6 +4,8 @@
   "tool_name": "YAML to JSON",
   "description": "Convert YAML text into formatted JSON text.",
   "module_version": "0.1.0",
+  "module_sha256": "badb4af6082314c464ec0a08f0d18823264f95e1a0341ba54b92f2e9608b47ed",
+  "module_size_bytes": 280624,
   "entrypoint": "convert_yaml_to_json",
   "input_kind": "text",
   "output_kind": "text",

@@ -1,0 +1,18 @@
+{
+  "api_version": "v1",
+  "tool_id": "toml2json",
+  "tool_name": "TOML to JSON",
+  "description": "Convert TOML text into JSON text.",
+  "module_version": "0.1.0",
+  "module_sha256": "686f6572ef58bd80a76cb0885554d37a63f9879ddf88de68499b7c73fa828f6f",
+  "module_size_bytes": 344947,
+  "entrypoint": "convert_toml_to_json",
+  "input_kind": "text",
+  "output_kind": "text",
+  "supported_mime_types": [
+    "application/toml",
+    "text/plain"
+  ],
+  "cache_ttl_seconds": 86400,
+  "artifact_path": "module.wasm"
+}

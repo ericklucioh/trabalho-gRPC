@@ -1,0 +1,19 @@
+{
+  "api_version": "v1",
+  "tool_id": "yaml-pretty",
+  "tool_name": "YAML Pretty",
+  "description": "Format YAML text with stable indentation.",
+  "module_version": "0.1.0",
+  "module_sha256": "3a52ae5a3980d963b9e90107d39e01238576e13f22247612a0cb83b8a5641ded",
+  "module_size_bytes": 321119,
+  "entrypoint": "format_yaml_pretty",
+  "input_kind": "text",
+  "output_kind": "text",
+  "supported_mime_types": [
+    "application/yaml",
+    "text/yaml",
+    "text/plain"
+  ],
+  "cache_ttl_seconds": 86400,
+  "artifact_path": "module.wasm"
+}

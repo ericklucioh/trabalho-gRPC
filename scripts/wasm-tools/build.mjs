@@ -1,4 +1,4 @@
-import { copyFileSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
@@ -7,12 +7,14 @@ import {
   assertToolWorkspaceAlignment,
   cacheTtlSeconds,
   cargoTargetDir,
-  repoRoot,
   outputRoot,
   toolDefinitions,
   toolsWorkspace,
   wasmTarget,
 } from './definitions.mjs';
+
+const buildRoot = join('/tmp', 'trabalho-grpc-wasm-build');
+const buildToolsWorkspace = join(buildRoot, 'tools');
 
 function sha256Hex(buffer) {
   return createHash('sha256').update(buffer).digest('hex');
@@ -23,6 +25,12 @@ function writeJson(filePath, value) {
 }
 
 function buildWorkspaceArtifacts() {
+  rmSync(buildRoot, { recursive: true, force: true });
+  cpSync(toolsWorkspace, buildToolsWorkspace, {
+    recursive: true,
+    filter: (sourcePath) => !sourcePath.endsWith(`${join('tools', 'target')}`) && !sourcePath.endsWith(`${join('target')}`),
+  });
+
   execFileSync(
     'cargo',
     [
@@ -31,19 +39,20 @@ function buildWorkspaceArtifacts() {
       '--target',
       wasmTarget,
       '--manifest-path',
-      join(toolsWorkspace, 'Cargo.toml'),
+      join(buildToolsWorkspace, 'Cargo.toml'),
       ...toolDefinitions.flatMap((tool) => ['--package', tool.crateName]),
     ],
-    { cwd: repoRoot, env: { ...process.env, CARGO_TARGET_DIR: cargoTargetDir }, stdio: 'inherit' }
+    { cwd: buildRoot, env: { ...process.env, CARGO_TARGET_DIR: cargoTargetDir }, stdio: 'inherit' }
   );
 }
 
 function packageTool(tool) {
+  const wasmFileName = `${tool.crateName.replaceAll('-', '_')}.wasm`;
   const targetFile = join(
     cargoTargetDir,
     'wasm32-unknown-unknown',
     'release',
-    `${tool.crateName}.wasm`
+    wasmFileName
   );
   const outputDir = join(outputRoot, tool.toolId);
   const outputFile = join(outputDir, 'module.wasm');

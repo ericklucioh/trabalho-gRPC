@@ -1,0 +1,18 @@
+{
+  "api_version": "v1",
+  "tool_id": "json-minify",
+  "tool_name": "JSON Minify",
+  "description": "Remove unnecessary whitespace from JSON text.",
+  "module_version": "0.1.0",
+  "module_sha256": "45bc3a6cb23446e6e44a2c4b2d981bf0f67f690f5ac6ffa4d03680da8f0542b0",
+  "module_size_bytes": 87462,
+  "entrypoint": "minify_json",
+  "input_kind": "text",
+  "output_kind": "text",
+  "supported_mime_types": [
+    "application/json",
+    "text/plain"
+  ],
+  "cache_ttl_seconds": 86400,
+  "artifact_path": "module.wasm"
+}

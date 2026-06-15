@@ -18,6 +18,7 @@ function readJson(filePath) {
 }
 
 function verifyTool(tool) {
+  const wasmFileName = `${tool.crateName.replaceAll('-', '_')}.wasm`;
   const outputDir = join(outputRoot, tool.toolId);
   const wasmFile = join(outputDir, 'module.wasm');
   const manifestFile = join(outputDir, 'manifest.json');
