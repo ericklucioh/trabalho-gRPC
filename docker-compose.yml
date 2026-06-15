@@ -27,6 +27,12 @@ services:
     volumes:
       # Read-only mount used by the Go backend to load and checksum the WASM bytes.
       - artifacts:/artifacts:ro
+    healthcheck:
+      test: ["CMD-SHELL", "bash -lc 'exec 3<>/dev/tcp/127.0.0.1/50051'"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 15s
 
   front:
     build:
@@ -34,7 +40,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       back:
-        condition: service_started
+        condition: service_healthy
     environment:
       # Next fetches the WASM package from the Go backend over gRPC, then exposes
       # it to the browser through the prepare route.

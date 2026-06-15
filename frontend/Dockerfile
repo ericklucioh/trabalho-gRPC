@@ -2,9 +2,6 @@ FROM node:22
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
-RUN npm i
-
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED=1
