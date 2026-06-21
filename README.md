@@ -6,13 +6,33 @@ Demo project for a WebAssembly tool store, focused on backend-to-backend gRPC co
 
 The application works as a catalog of small, useful tools. The user chooses a tool, submits text for processing, and receives the converted result in the interface.
 
+
+## Example
+
+You know when we need to remove the background from an image, convert a file, compress a PDF, and we have to keep searching for websites to do it for us? It is always the same thing.
+
+480p is free, but 4K is paid. Files over 5 MB are paid. You can only make 10 conversions per hour.
+
+Why? Both to make money and because there is a cost involved in uploading the file, processing it, and sending it back. That is why these limitations exist.
+
+My idea comes in exactly at this point. Instead of uploading the file, the user downloads the application and runs the tool directly in their browser.
+
+“But won’t that freeze the user’s computer or make it slow?”
+
+Honestly, people would rather spend 2 to 5 minutes with their PC frozen while converting a single file than pay one dollar to a website they do not know, from a source they do not trust, and that they may never use again.
+
+# My goal
+
+To turn this project, which started as a college assignment, into a real open-source project: something people can run, contribute to, create more tools for, and eventually have hosted somewhere.
+
+
 ## Goals
 
 - centralize lightweight tools in a single hub
-- demonstrate gRPC communication between backends
 - serve WASM modules from the backend
 - execute WASM in the browser
 - keep the demo simple for presentations
+- demonstrate gRPC communication between backends
 
 ## Architecture
 
