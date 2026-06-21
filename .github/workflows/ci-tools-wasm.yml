@@ -36,9 +36,13 @@ jobs:
 
       - name: Build WASM artifacts
         run: node scripts/wasm-tools/build.mjs
+        env:
+          WASM_OUTPUT_ROOT: dist/tools
 
       - name: Verify WASM artifacts
         run: node scripts/wasm-tools/verify.mjs
+        env:
+          WASM_OUTPUT_ROOT: dist/tools
 
       - name: Upload artifact bundle
         uses: actions/upload-artifact@v4
