@@ -12,7 +12,7 @@ fn assert_yaml_equivalent(input_json: &str) {
 
 #[test]
 fn converts_simple_object_exactly() {
-    assert_yaml_equivalent(r#"{"name":"lojinha","enabled":true,"count":3}"#);
+    assert_yaml_equivalent(r#"{"name":"tool-store","enabled":true,"count":3}"#);
 }
 
 #[test]

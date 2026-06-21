@@ -7,7 +7,7 @@ import (
 	"errors"
 	"sort"
 
-	"github.com/erick/projs/trabalho-grpc/internal/domain"
+	"github.com/erick/projs/wasm-tool-store/internal/domain"
 )
 
 type CatalogStore interface {

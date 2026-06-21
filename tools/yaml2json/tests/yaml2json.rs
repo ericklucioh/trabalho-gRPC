@@ -12,7 +12,7 @@ fn assert_json_equivalent(input_yaml: &str) {
 
 #[test]
 fn converts_simple_mapping() {
-    assert_json_equivalent("name: lojinha\nenabled: true\ncount: 3\n");
+    assert_json_equivalent("name: tool-store\nenabled: true\ncount: 3\n");
 }
 
 #[test]

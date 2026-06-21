@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package lojinha.wasm.v1;
+package wasmtoolstore.v1;
 
-option go_package = "github.com/erick/projs/trabalho-grpc/gen/lojinhawasm/v1;lojinhawasmv1";
+option go_package = "github.com/erick/projs/wasm-tool-store/gen/wasmtoolstore/v1;wasmtoolstorev1";
 
 service ToolCatalogService {
   rpc ListTools(ListToolsRequest) returns (ListToolsResponse);

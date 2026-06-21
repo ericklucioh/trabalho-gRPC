@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v3.21.12
-// source: gen/lojinhawasm/v1/tool_catalog.proto
+// source: gen/wasmtoolstore/v1/tool_catalog.proto
 
-package lojinhawasmv1
+package wasmtoolstorev1
 
 import (
 	context "context"
@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ToolCatalogService_ListTools_FullMethodName      = "/lojinha.wasm.v1.ToolCatalogService/ListTools"
-	ToolCatalogService_GetToolPackage_FullMethodName = "/lojinha.wasm.v1.ToolCatalogService/GetToolPackage"
+	ToolCatalogService_ListTools_FullMethodName      = "/wasmtoolstore.v1.ToolCatalogService/ListTools"
+	ToolCatalogService_GetToolPackage_FullMethodName = "/wasmtoolstore.v1.ToolCatalogService/GetToolPackage"
 )
 
 // ToolCatalogServiceClient is the client API for ToolCatalogService service.
@@ -142,7 +142,7 @@ func _ToolCatalogService_GetToolPackage_Handler(srv interface{}, ctx context.Con
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ToolCatalogService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "lojinha.wasm.v1.ToolCatalogService",
+	ServiceName: "wasmtoolstore.v1.ToolCatalogService",
 	HandlerType: (*ToolCatalogServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -155,5 +155,5 @@ var ToolCatalogService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "gen/lojinhawasm/v1/tool_catalog.proto",
+	Metadata: "gen/wasmtoolstore/v1/tool_catalog.proto",
 }

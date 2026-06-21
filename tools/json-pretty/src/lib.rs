@@ -97,7 +97,7 @@ fn read_input(ptr: *const u8, length: usize) -> Result<String, String> {
 }
 
 fn format_error(error: &JsonPrettyError, offending_value: &str) -> String {
-    format!("{error} Valor recebido: {offending_value}. Esperado: JSON válido.")
+    format!("{error} Received value: {offending_value}. Expected: valid JSON.")
 }
 
 fn set_last_error(message: &str) {
@@ -120,11 +120,11 @@ mod tests {
 
     #[test]
     fn formats_json_with_indentation() {
-        let output = format_json_pretty(r#"{"name":"lojinha","enabled":true,"count":3}"#)
+        let output = format_json_pretty(r#"{"name":"tool-store","enabled":true,"count":3}"#)
             .expect("conversion should succeed");
 
         assert!(output.contains("{"));
-        assert!(output.contains("\n  \"name\": \"lojinha\""));
+        assert!(output.contains("\n  \"name\": \"tool-store\""));
         assert!(output.contains("\n  \"enabled\": true"));
     }
 

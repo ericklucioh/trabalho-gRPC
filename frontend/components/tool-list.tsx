@@ -10,8 +10,8 @@ export function ToolList({ tools, selectedToolId, onSelectTool }: ToolListProps)
   return (
     <section className="panel">
       <div className="panel-header">
-        <h2 className="panel-title">Tools disponíveis</h2>
-        <p className="panel-subtitle">Selecione uma tool do catálogo MVP. A preparação agora vem do backend gRPC real.</p>
+        <h2 className="panel-title">Available tools</h2>
+        <p className="panel-subtitle">Select a tool from the MVP catalog. Preparation now comes from the real gRPC backend.</p>
       </div>
       <div className="panel-body">
         <div className="tool-grid">

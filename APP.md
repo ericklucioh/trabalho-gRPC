@@ -1,138 +1,138 @@
-# Lojinha WASM
+# WASM Tool Store
 
-## Ideia
+## Idea
 
-A proposta é criar uma lojinha de apps WebAssembly voltada para ferramentas pequenas, úteis e rápidas, com foco em conversão, validação, formatação e manipulação de arquivos.
+The proposal is to build a WebAssembly app store for small, useful, and fast tools, focused on conversion, validation, formatting, and file manipulation.
 
-A interface funciona como um catálogo de aplicações. O usuário escolhe uma ferramenta, envia um arquivo ou texto, e o sistema executa o processamento usando módulos WASM.
+The interface works as an application catalog. The user chooses a tool, submits a file or text, and the system performs the processing with WASM modules.
 
-O objetivo é mostrar uma arquitetura distribuída com gRPC, mas com o processamento principal concentrado em módulos especializados.
+The goal is to showcase a distributed gRPC architecture while keeping the core processing inside specialized modules.
 
-## Objetivo do Sistema
+## System Goals
 
-- centralizar várias ferramentas leves em um único hub
-- permitir reutilização de módulos por tipo de arquivo
-- demonstrar comunicação backend-to-backend com gRPC
-- manter a experiência simples para o usuário final
-- usar WASM como base para processamento isolado e portátil
+- centralize multiple lightweight tools in a single hub
+- allow module reuse by file type
+- demonstrate backend-to-backend communication with gRPC
+- keep the experience simple for the end user
+- use WASM as the foundation for isolated and portable processing
 
-## Proposta de Arquitetura
+## Architecture Proposal
 
-### Visão Geral
+### Overview
 
-O sistema pode ser dividido em 4 partes:
+The system can be divided into 4 parts:
 
 1. Frontend
-2. API principal
-3. Serviços especializados
-4. Módulos WASM
+2. Main API
+3. Specialized services
+4. WASM modules
 
-### Fluxo
+### Flow
 
-1. O usuário escolhe um app na lojinha.
-2. O frontend envia a requisição para a API principal.
-3. A API valida o pedido e encaminha para o serviço responsável via gRPC.
-4. O serviço lê o módulo WASM armazenado no volume compartilhado.
-5. O backend devolve os bytes do módulo, checksum e tamanho para o Next.
-6. O Next expõe esses bytes ao browser, que baixa e executa o WASM.
-7. O resultado volta para a interface.
+1. The user chooses an app in the WASM Tool Store.
+2. The frontend sends the request to the main API.
+3. The API validates the request and forwards it to the responsible service via gRPC.
+4. The service reads the WASM module stored in the shared volume.
+5. The backend returns the module bytes, checksum, and size to Next.
+6. Next exposes those bytes to the browser, which downloads and executes the WASM.
+7. The result returns to the interface.
 
-## Papel de Cada Camada
+## Role Of Each Layer
 
 ### Frontend
 
-- exibe a lista de apps
-- recebe upload de arquivos ou entrada de texto
-- mostra pré-visualização e resultado final
-- exibe o status de processamento
+- displays the app list
+- receives file uploads or text input
+- shows previews and final results
+- displays processing status
 
-### API Principal
+### Main API
 
-- autentica e organiza as requisições
-- decide qual serviço executar
-- faz a orquestração entre os serviços
-- registra metadados da execução
+- authenticates and organizes requests
+- decides which service to run
+- orchestrates communication between services
+- records execution metadata
 
-### Serviços Especializados
+### Specialized Services
 
-- cada serviço resolve um tipo de tarefa
-- exemplos:
-  - conversão de arquivos
-  - validação
-  - formatação
-  - compressão
+- each service solves one type of task
+- examples:
+  - file conversion
+  - validation
+  - formatting
+  - compression
   - parsing
-- os serviços se comunicam via gRPC
+- services communicate through gRPC
 
-### Módulos WASM
+### WASM Modules
 
-- fazem o processamento principal
-- ficam isolados do restante do sistema
-- podem ser reutilizados por diferentes apps
-- ajudam a manter portabilidade e previsibilidade
-- são transferidos do backend para o Next e depois para o browser na demo
+- perform the main processing
+- stay isolated from the rest of the system
+- can be reused by different apps
+- help preserve portability and predictability
+- are transferred from the backend to Next and then to the browser in the demo
 
-## Apps da Lojinha
+## Tool Store Apps
 
-As ideias iniciais do catálogo incluem:
+The initial catalog ideas include:
 
-- conversores de imagem e documento
-- compressão de vídeo e áudio
-- ferramentas de formato e validação de dados
-- utilitários para código e texto
-- playground de linguagens compiladas para WASM
+- image and document converters
+- video and audio compression
+- data format and validation tools
+- code and text utilities
+- playgrounds for languages compiled to WASM
 
-## Por Que Faz Sentido para gRPC
+## Why This Fits gRPC
 
-O trabalho pede foco em backend-to-backend, e essa arquitetura encaixa bem porque:
+The project requires a backend-to-backend focus, and this architecture fits because:
 
-- a API não faz todo o processamento sozinha
-- os serviços trocam dados e tarefas entre si
-- gRPC é usado como canal rápido e tipado entre backends
-- o sistema pode crescer por módulos sem virar um monólito
+- the API does not perform all processing on its own
+- services exchange data and tasks with each other
+- gRPC is used as a fast, typed backend channel
+- the system can grow by modules without becoming a monolith
 
-## Desafios Técnicos
+## Technical Challenges
 
-### 1. Tamanho e custo dos módulos WASM
+### 1. WASM module size and cost
 
-Alguns módulos podem ficar pesados, principalmente os de mídia e conversão avançada.
+Some modules can become heavy, especially for media processing and advanced conversion.
 
-### 2. Transferência de arquivos
+### 2. File transfer
 
-O sistema precisa lidar bem com upload, download e retorno de arquivos processados.
+The system must handle upload, download, and processed file responses well.
 
-### 3. Integração entre linguagens
+### 3. Cross-language integration
 
-Se os serviços forem escritos em linguagens diferentes, a integração precisa ser consistente.
+If services are written in different languages, the integration must stay consistent.
 
-### 4. Limites do navegador
+### 4. Browser limits
 
-Nem toda ferramenta vai rodar bem direto no cliente. Algumas vão depender de backend.
+Not every tool will run well directly on the client. Some will depend on the backend.
 
-### 5. Padronização dos resultados
+### 5. Result standardization
 
-Cada app precisa devolver resposta em um formato previsível para o frontend.
+Each app must return responses in a predictable format for the frontend.
 
-## Riscos e Cuidados
+## Risks And Safeguards
 
-- evitar escopo grande demais
-- priorizar poucas ferramentas demonstráveis
-- manter a demo simples e estável
-- não depender de funcionalidades difíceis de mostrar ao vivo
-- escolher ferramentas com saída clara e visual
+- avoid overly large scope
+- prioritize a small set of demonstrable tools
+- keep the demo simple and stable
+- avoid features that are hard to show live
+- choose tools with clear and visible output
 
-## Demonstração Sugerida
+## Suggested Demo
 
-Uma demonstração boa para apresentação pode seguir este roteiro:
+A solid presentation demo can follow this script:
 
-1. abrir a lojinha
-2. escolher um app
-4. mostrar a chamada entre frontend, API e serviço
-5. mostrar o resultado final
-6. repetir com outro formato ou outra ferramenta
+1. open the WASM Tool Store
+2. choose an app
+3. show the call chain between frontend, API, and service
+4. show the final result
+5. repeat with another format or another tool
 
-## Direção do Projeto
+## Project Direction
 
-A ideia principal não é construir só um conversor isolado.
+The main idea is not to build only an isolated converter.
 
-A proposta é mostrar uma plataforma modular de ferramentas WASM, onde cada app resolve uma tarefa pequena, e o backend com gRPC organiza o fluxo entre os serviços.
+The proposal is to show a modular WASM tool platform where each app solves a small task and the gRPC backend coordinates the flow between services.

@@ -8,11 +8,11 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/erick/projs/trabalho-grpc/gen/lojinhawasm/v1"
-	"github.com/erick/projs/trabalho-grpc/internal/adapters/artifacts"
-	"github.com/erick/projs/trabalho-grpc/internal/adapters/catalog"
-	"github.com/erick/projs/trabalho-grpc/internal/adapters/logging"
-	"github.com/erick/projs/trabalho-grpc/internal/application"
+	"github.com/erick/projs/wasm-tool-store/gen/wasmtoolstore/v1"
+	"github.com/erick/projs/wasm-tool-store/internal/adapters/artifacts"
+	"github.com/erick/projs/wasm-tool-store/internal/adapters/catalog"
+	"github.com/erick/projs/wasm-tool-store/internal/adapters/logging"
+	"github.com/erick/projs/wasm-tool-store/internal/application"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/test/bufconn"
@@ -22,9 +22,9 @@ func TestGRPCContractListsToolsAndReturnsPackage(t *testing.T) {
 	conn, cleanup := startBufferedServer(t)
 	defer cleanup()
 
-	client := lojinhawasmv1.NewToolCatalogServiceClient(conn)
+	client := wasmtoolstorev1.NewToolCatalogServiceClient(conn)
 
-	listResponse, err := client.ListTools(context.Background(), &lojinhawasmv1.ListToolsRequest{
+	listResponse, err := client.ListTools(context.Background(), &wasmtoolstorev1.ListToolsRequest{
 		ApiVersion:      "v1",
 		ClientRequestId: "request-1",
 	})
@@ -35,7 +35,7 @@ func TestGRPCContractListsToolsAndReturnsPackage(t *testing.T) {
 		t.Fatalf("ListTools count = %d, want %d", got, want)
 	}
 
-	packageResponse, err := client.GetToolPackage(context.Background(), &lojinhawasmv1.GetToolPackageRequest{
+	packageResponse, err := client.GetToolPackage(context.Background(), &wasmtoolstorev1.GetToolPackageRequest{
 		ApiVersion:      "v1",
 		ToolId:          "json2yaml",
 		ClientRequestId: "request-2",
@@ -61,7 +61,7 @@ func startBufferedServer(t *testing.T) (*grpc.ClientConn, func()) {
 	lis := bufconn.Listen(1 << 20)
 	service := application.NewService(catalog.NewFilesystemCatalog(root), artifacts.NewFileSystemReader(root))
 	server := grpc.NewServer()
-	lojinhawasmv1.RegisterToolCatalogServiceServer(server, NewHandler(service, logging.NopLogger{}))
+	wasmtoolstorev1.RegisterToolCatalogServiceServer(server, NewHandler(service, logging.NopLogger{}))
 
 	go func() {
 		_ = server.Serve(lis)

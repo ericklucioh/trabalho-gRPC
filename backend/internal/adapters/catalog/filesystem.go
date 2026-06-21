@@ -10,8 +10,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/erick/projs/trabalho-grpc/internal/application"
-	"github.com/erick/projs/trabalho-grpc/internal/domain"
+	"github.com/erick/projs/wasm-tool-store/internal/application"
+	"github.com/erick/projs/wasm-tool-store/internal/domain"
 )
 
 type FilesystemCatalog struct {

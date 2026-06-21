@@ -8,7 +8,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/erick/projs/trabalho-grpc/internal/domain"
+	"github.com/erick/projs/wasm-tool-store/internal/domain"
 )
 
 type fakeCatalogStore struct {

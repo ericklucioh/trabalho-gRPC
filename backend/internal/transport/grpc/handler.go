@@ -6,16 +6,16 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/erick/projs/trabalho-grpc/gen/lojinhawasm/v1"
-	"github.com/erick/projs/trabalho-grpc/internal/adapters/logging"
-	"github.com/erick/projs/trabalho-grpc/internal/application"
-	"github.com/erick/projs/trabalho-grpc/internal/domain"
+	"github.com/erick/projs/wasm-tool-store/gen/wasmtoolstore/v1"
+	"github.com/erick/projs/wasm-tool-store/internal/adapters/logging"
+	"github.com/erick/projs/wasm-tool-store/internal/application"
+	"github.com/erick/projs/wasm-tool-store/internal/domain"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 type Handler struct {
-	lojinhawasmv1.UnimplementedToolCatalogServiceServer
+	wasmtoolstorev1.UnimplementedToolCatalogServiceServer
 	app    *application.Service
 	logger logging.Logger
 }
@@ -28,7 +28,7 @@ func NewHandler(app *application.Service, logger logging.Logger) *Handler {
 	return &Handler{app: app, logger: logger}
 }
 
-func (h *Handler) ListTools(ctx context.Context, request *lojinhawasmv1.ListToolsRequest) (*lojinhawasmv1.ListToolsResponse, error) {
+func (h *Handler) ListTools(ctx context.Context, request *wasmtoolstorev1.ListToolsRequest) (*wasmtoolstorev1.ListToolsResponse, error) {
 	startedAt := time.Now()
 	apiVersion := request.GetApiVersion()
 	clientRequestID := request.GetClientRequestId()
@@ -44,13 +44,13 @@ func (h *Handler) ListTools(ctx context.Context, request *lojinhawasmv1.ListTool
 	}
 
 	h.logRequestSuccess("ListTools", clientRequestID, "", startedAt, "tools=%d", len(result.Tools))
-	return &lojinhawasmv1.ListToolsResponse{
+	return &wasmtoolstorev1.ListToolsResponse{
 		ApiVersion: result.APIVersion,
 		Tools:      toProtoToolSummaries(result.Tools),
 	}, nil
 }
 
-func (h *Handler) GetToolPackage(ctx context.Context, request *lojinhawasmv1.GetToolPackageRequest) (*lojinhawasmv1.GetToolPackageResponse, error) {
+func (h *Handler) GetToolPackage(ctx context.Context, request *wasmtoolstorev1.GetToolPackageRequest) (*wasmtoolstorev1.GetToolPackageResponse, error) {
 	startedAt := time.Now()
 	apiVersion := request.GetApiVersion()
 	toolID := request.GetToolId()
@@ -68,7 +68,7 @@ func (h *Handler) GetToolPackage(ctx context.Context, request *lojinhawasmv1.Get
 	}
 
 	h.logRequestSuccess("GetToolPackage", clientRequestID, toolID, startedAt, "wasm_size_bytes=%d sha256=%s", result.WASMSizeBytes, result.WASMSHA256)
-	return &lojinhawasmv1.GetToolPackageResponse{
+	return &wasmtoolstorev1.GetToolPackageResponse{
 		ApiVersion:         result.APIVersion,
 		ToolId:             result.ToolID,
 		ToolName:           result.ToolName,
@@ -125,10 +125,10 @@ func formatWithArgs(format string, args ...interface{}) string {
 	return fmt.Sprintf(format, args...)
 }
 
-func toProtoToolSummaries(tools []domain.ToolSummary) []*lojinhawasmv1.ToolSummary {
-	summaries := make([]*lojinhawasmv1.ToolSummary, 0, len(tools))
+func toProtoToolSummaries(tools []domain.ToolSummary) []*wasmtoolstorev1.ToolSummary {
+	summaries := make([]*wasmtoolstorev1.ToolSummary, 0, len(tools))
 	for _, tool := range tools {
-		summaries = append(summaries, &lojinhawasmv1.ToolSummary{
+		summaries = append(summaries, &wasmtoolstorev1.ToolSummary{
 			ToolId:        tool.ToolID,
 			DisplayName:   tool.DisplayName,
 			Description:   tool.Description,

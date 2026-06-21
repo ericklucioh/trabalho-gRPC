@@ -51,7 +51,7 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
   const [isCatalogLoading, setIsCatalogLoading] = useState(true);
   const [isConfiguring, setIsConfiguring] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [statusMessage, setStatusMessage] = useState('Carregando catálogo de tools.');
+  const [statusMessage, setStatusMessage] = useState('Loading tool catalog.');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [outputValue, setOutputValue] = useState('');
@@ -74,7 +74,7 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
         });
         setTools(fetchedTools);
         setSelectedToolId((current) => current ?? fetchedTools[0]?.toolId ?? null);
-        setStatusMessage('Catálogo carregado. Selecione uma tool para configurar.');
+        setStatusMessage('Catalog loaded. Select a tool to configure.');
         setToolStatus('ready');
       } catch (error) {
         if (!isActive) {
@@ -86,7 +86,7 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
         });
         setToolStatus('failed');
         setErrorMessage(getErrorMessage(error));
-        setStatusMessage('Falha ao carregar catálogo.');
+        setStatusMessage('Failed to load catalog.');
       } finally {
         if (isActive) {
           setIsCatalogLoading(false);
@@ -110,19 +110,19 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
     setOutputValue('');
     setErrorMessage(null);
     setInputError(null);
-    setStatusMessage(`Tool selecionada: ${toolId}.`);
+    setStatusMessage(`Selected tool: ${toolId}.`);
     setToolStatus('ready');
   }
 
   async function configureSelectedTool(): Promise<void> {
     if (!selectedToolId) {
-      setErrorMessage('Selecione uma tool antes de configurar.');
+      setErrorMessage('Select a tool before configuring it.');
       return;
     }
 
     setIsConfiguring(true);
     setErrorMessage(null);
-    setStatusMessage('Solicitando pacote WASM real via Next.');
+    setStatusMessage('Requesting the real WASM package through Next.');
     setToolStatus('loading');
 
     const clientRequestId = createRequestId();
@@ -161,7 +161,7 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
       });
       setConfiguredTool(loadedConfiguration);
       setToolStatus('configured');
-      setStatusMessage('Tool configurada com WASM real.');
+      setStatusMessage('Tool configured with the real WASM package.');
       setInputError(null);
     } catch (error) {
       console.info('[frontend/workbench] tool prepare failed', {
@@ -171,7 +171,7 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
       });
       setToolStatus('failed');
       setErrorMessage(getErrorMessage(error));
-      setStatusMessage('Falha ao configurar a tool.');
+      setStatusMessage('Failed to configure the tool.');
     } finally {
       setIsConfiguring(false);
     }
@@ -179,7 +179,7 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
 
   async function submitInput(): Promise<void> {
     if (!selectedToolId || !configuredTool) {
-      setErrorMessage('Configure a tool antes de enviar o texto.');
+      setErrorMessage('Configure the tool before submitting text.');
       return;
     }
 
@@ -192,7 +192,7 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
       console.info('[frontend/workbench] tool execution started', {
         toolId: selectedToolId,
       });
-      setStatusMessage('Executando WASM no browser.');
+      setStatusMessage('Running WASM in the browser.');
       const result = await runtimeAdapter.execute(
         {
           toolId: selectedToolId,
@@ -205,14 +205,14 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
         outputLength: result.outputText.length,
       });
       setOutputValue(result.outputText);
-      setStatusMessage('Conversão concluída pelo WASM baixado via gRPC.');
+      setStatusMessage('Conversion completed by the WASM downloaded through gRPC.');
     } catch (error) {
       console.info('[frontend/workbench] tool execution failed', {
         toolId: selectedToolId,
         error: getErrorMessage(error),
       });
       setErrorMessage(getErrorMessage(error));
-      setStatusMessage('Falha ao processar a entrada.');
+      setStatusMessage('Failed to process the input.');
     } finally {
       setIsSubmitting(false);
     }
@@ -221,7 +221,7 @@ export function useToolWorkbench(options: UseToolWorkbenchOptions = {}): UseTool
   return {
     tools,
     selectedToolId,
-    selectedToolLabel: selectedTool?.displayName ?? 'Nenhuma tool selecionada',
+    selectedToolLabel: selectedTool?.displayName ?? 'No tool selected',
     toolStatus,
     isCatalogLoading,
     isConfiguring,
@@ -245,7 +245,7 @@ function getErrorMessage(error: unknown): string {
     return error.message;
   }
 
-  return 'Erro inesperado.';
+  return 'Unexpected error.';
 }
 
 function buildToolManifest(prepareResponse: Awaited<ReturnType<ToolCatalogAdapter['prepareTool']>>): ToolManifest {

@@ -1,68 +1,68 @@
-# Lojinha WASM
+# WASM Tool Store
 
-Projeto de demonstração de uma lojinha de apps WebAssembly, com foco em comunicação backend-to-backend via gRPC e transferência de módulos WASM para execução no navegador.
+Demo project for a WebAssembly tool store, focused on backend-to-backend gRPC communication and WASM module delivery for in-browser execution.
 
-## Ideia
+## Idea
 
-A aplicação funciona como um catálogo de ferramentas pequenas e úteis. O usuário escolhe uma tool, envia texto para processamento e recebe o resultado convertido na interface.
+The application works as a catalog of small, useful tools. The user chooses a tool, submits text for processing, and receives the converted result in the interface.
 
-## Objetivo
+## Goals
 
-- centralizar ferramentas leves em um único hub
-- demonstrar comunicação entre backends com gRPC
-- servir módulos WASM a partir do backend
-- executar o WASM no navegador
-- manter a demo simples para apresentação
+- centralize lightweight tools in a single hub
+- demonstrate gRPC communication between backends
+- serve WASM modules from the backend
+- execute WASM in the browser
+- keep the demo simple for presentations
 
-## Arquitetura
+## Architecture
 
-O sistema é dividido em 4 partes:
+The system is split into 4 parts:
 
-1. Aplicação Next.js/Node
-2. Serviço Go com gRPC
-3. Módulos WASM
-4. Navegador
+1. Next.js/Node application
+2. Go gRPC service
+3. WASM modules
+4. Browser
 
-### Fluxo da demo
+### Demo flow
 
-1. O usuário abre a interface no navegador.
-2. A aplicação Next.js renderiza a interface e recebe a requisição do browser.
-3. O Node dentro do Next consulta o backend Go via gRPC.
-4. O backend devolve catálogo, manifest e bytes do módulo WASM.
-5. O Next entrega o pacote ao browser, que baixa o WASM e executa a tool localmente.
-6. O resultado aparece na tela.
+1. The user opens the interface in the browser.
+2. The Next.js application renders the interface and receives the browser request.
+3. The Node runtime inside Next calls the Go backend through gRPC.
+4. The backend returns the catalog, manifest, and WASM module bytes.
+5. Next delivers the package to the browser, which downloads the WASM and runs the tool locally.
+6. The result appears on screen.
 
-## Papel de Cada Camada
+## Role Of Each Layer
 
-### Aplicação Next.js/Node
+### Next.js/Node Application
 
-- renderiza a interface no browser
-- expõe as rotas HTTP usadas pela tela
-- organiza as requisições do usuário
-- faz a ponte gRPC com o backend Go
-- entrega ao browser os dados necessários para carregar o WASM
+- renders the browser interface
+- exposes the HTTP routes used by the UI
+- coordinates user requests
+- acts as the gRPC bridge to the Go backend
+- delivers the data required for the browser to load the WASM
 
-### Serviço Go
+### Go Service
 
-- expõe o serviço gRPC
-- mantém o catálogo das tools
-- lê manifestos e artefatos WASM
-- entrega metadados e bytes do módulo
+- exposes the gRPC service
+- maintains the tool catalog
+- reads WASM manifests and artifacts
+- returns module metadata and bytes
 
-### Módulos WASM
+### WASM Modules
 
-- fazem o processamento principal
-- rodam no navegador
-- podem ser reutilizados por outras ferramentas
+- perform the main processing
+- run in the browser
+- can be reused by other tools
 
-### Navegador
+### Browser
 
-- exibe a interface final
-- baixa o módulo WASM preparado pelo Next
-- executa a tool localmente
-- mostra o resultado para o usuário
+- displays the final interface
+- downloads the WASM module prepared by Next
+- executes the tool locally
+- shows the result to the user
 
-## Tecnologias
+## Technologies
 
 - **Go 1.26.1**
 - **gRPC**
@@ -74,22 +74,22 @@ O sistema é dividido em 4 partes:
 - **WebAssembly**
 - **Docker**
 - **Docker Compose**
-- **Rust** para geração dos módulos WASM
+- **Rust** for building the WASM modules
 
-## Como Rodar
+## Running
 
-O projeto roda com:
+The project runs with:
 
 ```bash
 docker compose up
 ```
 
-Depois abra:
+Then open:
 
 - frontend: `http://localhost:3000`
 - backend gRPC: `localhost:50051`
 
-## Rodando Localmente
+## Running Locally
 
 ### Backend Go
 
@@ -98,11 +98,11 @@ cd backend
 go run ./cmd/server
 ```
 
-Variáveis de ambiente úteis:
+Useful environment variables:
 
-- `GRPC_PORT` - porta do servidor gRPC, padrão `50051`
-- `ARTIFACT_ROOT` - pasta dos artefatos WASM, padrão `./artifacts`
-- `SHUTDOWN_TIMEOUT_SECONDS` - tempo de desligamento gracioso, padrão `5`
+- `GRPC_PORT` - gRPC server port, default `50051`
+- `ARTIFACT_ROOT` - WASM artifacts directory, default `./artifacts`
+- `SHUTDOWN_TIMEOUT_SECONDS` - graceful shutdown timeout, default `5`
 
 ### Frontend Next.js
 
@@ -112,25 +112,25 @@ npm ci
 GRPC_ENDPOINT=127.0.0.1:50051 npm run dev
 ```
 
-Depois abra:
+Then open:
 
 - `http://localhost:3000`
 
-## Estrutura Dos Artefatos
+## Artifact Structure
 
-Cada tool possui:
+Each tool contains:
 
 - `manifest.json`
 - `module.wasm`
 - `sha256.txt`
 
-Os artefatos ficam em `backend/artifacts/<tool-id>/`.
+Artifacts are stored in `backend/artifacts/<tool-id>/`.
 
-## Geração Dos WASM
+## WASM Build
 
-Se for preciso recompilar os módulos, o projeto possui o workspace Rust em `tools/` e scripts no `Makefile`.
+If you need to rebuild the modules, the project includes a Rust workspace in `tools/` and scripts in the `Makefile`.
 
-Comandos úteis:
+Useful commands:
 
 ```bash
 make test-rust
@@ -139,10 +139,10 @@ make verify-wasm-tools
 make ci-tools-wasm
 ```
 
-## Demonstração Sugerida
+## Suggested Demo
 
-1. Abrir a lojinha.
-2. Escolher `json2yaml` ou `yaml2json`.
-3. Configurar a tool.
-4. Enviar texto de entrada.
-5. Mostrar o resultado convertido.
+1. Open the WASM Tool Store.
+2. Choose `json2yaml` or `yaml2json`.
+3. Configure the tool.
+4. Submit input text.
+5. Show the converted result.

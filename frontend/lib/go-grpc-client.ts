@@ -60,11 +60,9 @@ interface ToolCatalogServiceClient extends Client {
 }
 
 interface ProtoRoot {
-  lojinha: {
-    wasm: {
-      v1: {
-        ToolCatalogService: ToolCatalogServiceClientConstructor;
-      };
+  wasmtoolstore: {
+    v1: {
+      ToolCatalogService: ToolCatalogServiceClientConstructor;
     };
   };
 }
@@ -96,7 +94,7 @@ export interface BrowserToolPackage {
   wasmSizeBytes: number;
 }
 
-const PROTO_PATH = join(process.cwd(), 'proto', 'lojinhawasm', 'v1', 'tool_catalog.proto');
+const PROTO_PATH = join(process.cwd(), 'proto', 'wasmtoolstore', 'v1', 'tool_catalog.proto');
 const GRPC_OPTIONS = {
   keepCase: true,
   longs: String,
@@ -114,7 +112,7 @@ function getClientConstructor(): ToolCatalogServiceClientConstructor {
 
   const packageDefinition = loadSync(PROTO_PATH, GRPC_OPTIONS) as PackageDefinition;
   const loaded = loadPackageDefinition(packageDefinition) as unknown as ProtoRoot;
-  clientConstructor = loaded.lojinha.wasm.v1.ToolCatalogService;
+  clientConstructor = loaded.wasmtoolstore.v1.ToolCatalogService;
 
   return clientConstructor;
 }

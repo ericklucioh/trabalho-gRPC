@@ -99,7 +99,7 @@ fn read_input(ptr: *const u8, length: usize) -> Result<String, String> {
 }
 
 fn format_error(error: &YamlMinifyError, offending_value: &str) -> String {
-    format!("{error} Valor recebido: {offending_value}. Esperado: YAML válido.")
+    format!("{error} Received value: {offending_value}. Expected: valid YAML.")
 }
 
 fn set_last_error(message: &str) {
@@ -122,10 +122,10 @@ mod tests {
 
     #[test]
     fn normalizes_yaml_document() {
-        let output = minify_yaml("name: lojinha\nenabled: true\ncount: 3\n")
+        let output = minify_yaml("name: tool-store\nenabled: true\ncount: 3\n")
             .expect("conversion should succeed");
 
-        assert!(output.contains("name: lojinha"));
+        assert!(output.contains("name: tool-store"));
         assert!(!output.ends_with('\n'));
     }
 

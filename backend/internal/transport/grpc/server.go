@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/erick/projs/trabalho-grpc/gen/lojinhawasm/v1"
-	"github.com/erick/projs/trabalho-grpc/internal/adapters/logging"
-	"github.com/erick/projs/trabalho-grpc/internal/config"
+	"github.com/erick/projs/wasm-tool-store/gen/wasmtoolstore/v1"
+	"github.com/erick/projs/wasm-tool-store/internal/adapters/logging"
+	"github.com/erick/projs/wasm-tool-store/internal/config"
 	"google.golang.org/grpc"
 )
 
@@ -23,7 +23,7 @@ func NewServer(cfg config.Config, handler *Handler, logger logging.Logger) *Serv
 	}
 
 	server := grpc.NewServer()
-	lojinhawasmv1.RegisterToolCatalogServiceServer(server, handler)
+	wasmtoolstorev1.RegisterToolCatalogServiceServer(server, handler)
 
 	return &Server{cfg: cfg, server: server, logger: logger}
 }

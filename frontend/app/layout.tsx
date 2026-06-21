@@ -4,8 +4,8 @@ import type { ReactNode } from 'react';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Lojinha WASM',
-  description: 'Frontend da demo com adapters substituíveis e fluxo preparado para gRPC depois.',
+  title: 'WASM Tool Store',
+  description: 'Demo frontend with replaceable adapters and a production-shaped gRPC flow.',
 };
 
 interface RootLayoutProps {
@@ -14,7 +14,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="pt-BR">
+    <html lang="en">
       <body>{children}</body>
     </html>
   );

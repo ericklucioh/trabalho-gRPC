@@ -97,7 +97,7 @@ fn read_input(ptr: *const u8, length: usize) -> Result<String, String> {
 }
 
 fn format_error(error: &Toml2JsonError, offending_value: &str) -> String {
-    format!("{error} Valor recebido: {offending_value}. Esperado: TOML válido.")
+    format!("{error} Received value: {offending_value}. Expected: valid TOML.")
 }
 
 fn set_last_error(message: &str) {
@@ -121,11 +121,11 @@ mod tests {
     #[test]
     fn converts_document() {
         let output = convert_toml_to_json(
-            "name = \"lojinha\"\nenabled = true\ncount = 3\n[meta]\nversion = 1\n",
+            "name = \"tool-store\"\nenabled = true\ncount = 3\n[meta]\nversion = 1\n",
         )
         .expect("conversion should succeed");
 
-        assert!(output.contains("\"name\": \"lojinha\""));
+        assert!(output.contains("\"name\": \"tool-store\""));
         assert!(output.contains("\"enabled\": true"));
         assert!(output.contains("\"meta\""));
     }

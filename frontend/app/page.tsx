@@ -14,11 +14,11 @@ export default function HomePage() {
   return (
     <main className="page-shell">
       <section className="hero">
-        <span className="eyebrow">Lojinha WASM</span>
-        <h1>Demo funcional com gRPC entre Next e Go.</h1>
-        <p>Selecione uma tool, busque o pacote no backend, baixe o WASM e execute a conversão no browser.</p>
+        <span className="eyebrow">WASM Tool Store</span>
+        <h1>Working demo with gRPC between Next and Go.</h1>
+        <p>Select a tool, fetch the package from the backend, download the WASM, and run the conversion in the browser.</p>
         <div className="badge-row">
-          <StatusBadge label={`Tool atual: ${workbench.selectedToolLabel}`} tone={workbench.isConfigured ? 'success' : 'warning'} />
+          <StatusBadge label={`Current tool: ${workbench.selectedToolLabel}`} tone={workbench.isConfigured ? 'success' : 'warning'} />
           <StatusBadge label={workbench.statusMessage} tone={workbench.errorMessage ? 'danger' : 'neutral'} />
         </div>
       </section>
@@ -28,16 +28,16 @@ export default function HomePage() {
           <ToolList onSelectTool={workbench.selectTool} selectedToolId={workbench.selectedToolId} tools={workbench.tools} />
           <section className="panel">
             <div className="panel-header">
-              <h2 className="panel-title">Configuração</h2>
+              <h2 className="panel-title">Configuration</h2>
               <p className="panel-subtitle">
-                Clique para buscar o manifest, baixar o módulo e ativar a tool executando o WASM de verdade.
+                Click to fetch the manifest, download the module, and activate the tool by running the real WASM.
               </p>
             </div>
             <div className="panel-body">
               <div className="configure-box">
-                <ToolConfigureButton isDisabled={workbench.isCatalogLoading || workbench.isConfiguring || workbench.selectedToolId === null} isLoading={workbench.isConfiguring} label="Configurar tool" onClick={() => { void workbench.configureSelectedTool(); }} />
-                {workbench.isCatalogLoading ? <LoadingIndicator label="Carregando catálogo inicial..." /> : null}
-                {workbench.isConfiguring ? <LoadingIndicator label="Recebendo pacote WASM real..." /> : null}
+                <ToolConfigureButton isDisabled={workbench.isCatalogLoading || workbench.isConfiguring || workbench.selectedToolId === null} isLoading={workbench.isConfiguring} label="Configure tool" onClick={() => { void workbench.configureSelectedTool(); }} />
+                {workbench.isCatalogLoading ? <LoadingIndicator label="Loading initial catalog..." /> : null}
+                {workbench.isConfiguring ? <LoadingIndicator label="Receiving real WASM package..." /> : null}
               </div>
             </div>
           </section>

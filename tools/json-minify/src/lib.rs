@@ -97,7 +97,7 @@ fn read_input(ptr: *const u8, length: usize) -> Result<String, String> {
 }
 
 fn format_error(error: &JsonMinifyError, offending_value: &str) -> String {
-    format!("{error} Valor recebido: {offending_value}. Esperado: JSON válido.")
+    format!("{error} Received value: {offending_value}. Expected: valid JSON.")
 }
 
 fn set_last_error(message: &str) {
@@ -120,7 +120,7 @@ mod tests {
 
     #[test]
     fn minifies_json() {
-        let input = "{\"name\": \"lojinha\", \"enabled\": true, \"count\": 3}";
+        let input = "{\"name\": \"tool-store\", \"enabled\": true, \"count\": 3}";
         let output = minify_json(input)
             .expect("conversion should succeed");
 

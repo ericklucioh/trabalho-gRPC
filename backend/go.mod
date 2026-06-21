@@ -1,4 +1,4 @@
-module github.com/erick/projs/trabalho-grpc
+module github.com/erick/projs/wasm-tool-store
 
 go 1.26.1
 

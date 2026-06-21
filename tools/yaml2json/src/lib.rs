@@ -99,7 +99,7 @@ fn read_input(ptr: *const u8, length: usize) -> Result<String, String> {
 }
 
 fn format_error(error: &Yaml2JsonError, offending_value: &str) -> String {
-    format!("{error} Valor recebido: {offending_value}. Esperado: YAML válido.")
+    format!("{error} Received value: {offending_value}. Expected: valid YAML.")
 }
 
 fn set_last_error(message: &str) {
@@ -122,11 +122,11 @@ mod tests {
 
     #[test]
     fn converts_mapping_yaml_to_json() {
-        let input = "name: lojinha\nenabled: true\ncount: 3\n";
+        let input = "name: tool-store\nenabled: true\ncount: 3\n";
 
         let output = convert_yaml_to_json(input).expect("conversion should succeed");
 
-        assert!(output.contains("\"name\": \"lojinha\""));
+        assert!(output.contains("\"name\": \"tool-store\""));
         assert!(output.contains("\"enabled\": true"));
         assert!(output.contains("\"count\": 3"));
     }

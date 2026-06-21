@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.21.12
-// source: gen/lojinhawasm/v1/tool_catalog.proto
+// source: gen/wasmtoolstore/v1/tool_catalog.proto
 
-package lojinhawasmv1
+package wasmtoolstorev1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -31,7 +31,7 @@ type ListToolsRequest struct {
 
 func (x *ListToolsRequest) Reset() {
 	*x = ListToolsRequest{}
-	mi := &file_gen_lojinhawasm_v1_tool_catalog_proto_msgTypes[0]
+	mi := &file_gen_wasmtoolstore_v1_tool_catalog_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -43,7 +43,7 @@ func (x *ListToolsRequest) String() string {
 func (*ListToolsRequest) ProtoMessage() {}
 
 func (x *ListToolsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_gen_lojinhawasm_v1_tool_catalog_proto_msgTypes[0]
+	mi := &file_gen_wasmtoolstore_v1_tool_catalog_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,7 +56,7 @@ func (x *ListToolsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListToolsRequest.ProtoReflect.Descriptor instead.
 func (*ListToolsRequest) Descriptor() ([]byte, []int) {
-	return file_gen_lojinhawasm_v1_tool_catalog_proto_rawDescGZIP(), []int{0}
+	return file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *ListToolsRequest) GetApiVersion() string {
@@ -84,7 +84,7 @@ type ListToolsResponse struct {
 
 func (x *ListToolsResponse) Reset() {
 	*x = ListToolsResponse{}
-	mi := &file_gen_lojinhawasm_v1_tool_catalog_proto_msgTypes[1]
+	mi := &file_gen_wasmtoolstore_v1_tool_catalog_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -96,7 +96,7 @@ func (x *ListToolsResponse) String() string {
 func (*ListToolsResponse) ProtoMessage() {}
 
 func (x *ListToolsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_gen_lojinhawasm_v1_tool_catalog_proto_msgTypes[1]
+	mi := &file_gen_wasmtoolstore_v1_tool_catalog_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -109,7 +109,7 @@ func (x *ListToolsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListToolsResponse.ProtoReflect.Descriptor instead.
 func (*ListToolsResponse) Descriptor() ([]byte, []int) {
-	return file_gen_lojinhawasm_v1_tool_catalog_proto_rawDescGZIP(), []int{1}
+	return file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ListToolsResponse) GetApiVersion() string {
@@ -144,7 +144,7 @@ type GetToolPackageRequest struct {
 
 func (x *GetToolPackageRequest) Reset() {
 	*x = GetToolPackageRequest{}
-	mi := &file_gen_lojinhawasm_v1_tool_catalog_proto_msgTypes[2]
+	mi := &file_gen_wasmtoolstore_v1_tool_catalog_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -156,7 +156,7 @@ func (x *GetToolPackageRequest) String() string {
 func (*GetToolPackageRequest) ProtoMessage() {}
 
 func (x *GetToolPackageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_gen_lojinhawasm_v1_tool_catalog_proto_msgTypes[2]
+	mi := &file_gen_wasmtoolstore_v1_tool_catalog_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -169,7 +169,7 @@ func (x *GetToolPackageRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetToolPackageRequest.ProtoReflect.Descriptor instead.
 func (*GetToolPackageRequest) Descriptor() ([]byte, []int) {
-	return file_gen_lojinhawasm_v1_tool_catalog_proto_rawDescGZIP(), []int{2}
+	return file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetToolPackageRequest) GetApiVersion() string {
@@ -215,7 +215,7 @@ type GetToolPackageResponse struct {
 
 func (x *GetToolPackageResponse) Reset() {
 	*x = GetToolPackageResponse{}
-	mi := &file_gen_lojinhawasm_v1_tool_catalog_proto_msgTypes[3]
+	mi := &file_gen_wasmtoolstore_v1_tool_catalog_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -227,7 +227,7 @@ func (x *GetToolPackageResponse) String() string {
 func (*GetToolPackageResponse) ProtoMessage() {}
 
 func (x *GetToolPackageResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_gen_lojinhawasm_v1_tool_catalog_proto_msgTypes[3]
+	mi := &file_gen_wasmtoolstore_v1_tool_catalog_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -240,7 +240,7 @@ func (x *GetToolPackageResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetToolPackageResponse.ProtoReflect.Descriptor instead.
 func (*GetToolPackageResponse) Descriptor() ([]byte, []int) {
-	return file_gen_lojinhawasm_v1_tool_catalog_proto_rawDescGZIP(), []int{3}
+	return file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetToolPackageResponse) GetApiVersion() string {
@@ -353,7 +353,7 @@ type ToolSummary struct {
 
 func (x *ToolSummary) Reset() {
 	*x = ToolSummary{}
-	mi := &file_gen_lojinhawasm_v1_tool_catalog_proto_msgTypes[4]
+	mi := &file_gen_wasmtoolstore_v1_tool_catalog_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -365,7 +365,7 @@ func (x *ToolSummary) String() string {
 func (*ToolSummary) ProtoMessage() {}
 
 func (x *ToolSummary) ProtoReflect() protoreflect.Message {
-	mi := &file_gen_lojinhawasm_v1_tool_catalog_proto_msgTypes[4]
+	mi := &file_gen_wasmtoolstore_v1_tool_catalog_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -378,7 +378,7 @@ func (x *ToolSummary) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ToolSummary.ProtoReflect.Descriptor instead.
 func (*ToolSummary) Descriptor() ([]byte, []int) {
-	return file_gen_lojinhawasm_v1_tool_catalog_proto_rawDescGZIP(), []int{4}
+	return file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ToolSummary) GetToolId() string {
@@ -421,7 +421,7 @@ type TypedError struct {
 
 func (x *TypedError) Reset() {
 	*x = TypedError{}
-	mi := &file_gen_lojinhawasm_v1_tool_catalog_proto_msgTypes[5]
+	mi := &file_gen_wasmtoolstore_v1_tool_catalog_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -433,7 +433,7 @@ func (x *TypedError) String() string {
 func (*TypedError) ProtoMessage() {}
 
 func (x *TypedError) ProtoReflect() protoreflect.Message {
-	mi := &file_gen_lojinhawasm_v1_tool_catalog_proto_msgTypes[5]
+	mi := &file_gen_wasmtoolstore_v1_tool_catalog_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -446,7 +446,7 @@ func (x *TypedError) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TypedError.ProtoReflect.Descriptor instead.
 func (*TypedError) Descriptor() ([]byte, []int) {
-	return file_gen_lojinhawasm_v1_tool_catalog_proto_rawDescGZIP(), []int{5}
+	return file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *TypedError) GetCode() string {
@@ -477,25 +477,25 @@ func (x *TypedError) GetExpectedShape() string {
 	return ""
 }
 
-var File_gen_lojinhawasm_v1_tool_catalog_proto protoreflect.FileDescriptor
+var File_gen_wasmtoolstore_v1_tool_catalog_proto protoreflect.FileDescriptor
 
-const file_gen_lojinhawasm_v1_tool_catalog_proto_rawDesc = "" +
+const file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDesc = "" +
 	"\n" +
-	"%gen/lojinhawasm/v1/tool_catalog.proto\x12\x0flojinha.wasm.v1\"_\n" +
+	"'gen/wasmtoolstore/v1/tool_catalog.proto\x12\x10wasmtoolstore.v1\"_\n" +
 	"\x10ListToolsRequest\x12\x1f\n" +
 	"\vapi_version\x18\x01 \x01(\tR\n" +
 	"apiVersion\x12*\n" +
-	"\x11client_request_id\x18\x02 \x01(\tR\x0fclientRequestId\"\x9b\x01\n" +
+	"\x11client_request_id\x18\x02 \x01(\tR\x0fclientRequestId\"\x9d\x01\n" +
 	"\x11ListToolsResponse\x12\x1f\n" +
 	"\vapi_version\x18\x01 \x01(\tR\n" +
-	"apiVersion\x122\n" +
-	"\x05tools\x18\x02 \x03(\v2\x1c.lojinha.wasm.v1.ToolSummaryR\x05tools\x121\n" +
-	"\x05error\x18\x03 \x01(\v2\x1b.lojinha.wasm.v1.TypedErrorR\x05error\"}\n" +
+	"apiVersion\x123\n" +
+	"\x05tools\x18\x02 \x03(\v2\x1d.wasmtoolstore.v1.ToolSummaryR\x05tools\x122\n" +
+	"\x05error\x18\x03 \x01(\v2\x1c.wasmtoolstore.v1.TypedErrorR\x05error\"}\n" +
 	"\x15GetToolPackageRequest\x12\x1f\n" +
 	"\vapi_version\x18\x01 \x01(\tR\n" +
 	"apiVersion\x12\x17\n" +
 	"\atool_id\x18\x02 \x01(\tR\x06toolId\x12*\n" +
-	"\x11client_request_id\x18\x03 \x01(\tR\x0fclientRequestId\"\x91\x04\n" +
+	"\x11client_request_id\x18\x03 \x01(\tR\x0fclientRequestId\"\x92\x04\n" +
 	"\x16GetToolPackageResponse\x12\x1f\n" +
 	"\vapi_version\x18\x01 \x01(\tR\n" +
 	"apiVersion\x12\x17\n" +
@@ -517,8 +517,8 @@ const file_gen_lojinhawasm_v1_tool_catalog_proto_rawDesc = "" +
 	"wasm_bytes\x18\v \x01(\fR\twasmBytes\x12\x1f\n" +
 	"\vwasm_sha256\x18\f \x01(\tR\n" +
 	"wasmSha256\x12&\n" +
-	"\x0fwasm_size_bytes\x18\r \x01(\x04R\rwasmSizeBytes\x121\n" +
-	"\x05error\x18\x0e \x01(\v2\x1b.lojinha.wasm.v1.TypedErrorR\x05error\"\x92\x01\n" +
+	"\x0fwasm_size_bytes\x18\r \x01(\x04R\rwasmSizeBytes\x122\n" +
+	"\x05error\x18\x0e \x01(\v2\x1c.wasmtoolstore.v1.TypedErrorR\x05error\"\x92\x01\n" +
 	"\vToolSummary\x12\x17\n" +
 	"\atool_id\x18\x01 \x01(\tR\x06toolId\x12!\n" +
 	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12 \n" +
@@ -529,40 +529,40 @@ const file_gen_lojinhawasm_v1_tool_catalog_proto_rawDesc = "" +
 	"\x04code\x18\x01 \x01(\tR\x04code\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12'\n" +
 	"\x0foffending_value\x18\x03 \x01(\tR\x0eoffendingValue\x12%\n" +
-	"\x0eexpected_shape\x18\x04 \x01(\tR\rexpectedShape2\xcb\x01\n" +
-	"\x12ToolCatalogService\x12R\n" +
-	"\tListTools\x12!.lojinha.wasm.v1.ListToolsRequest\x1a\".lojinha.wasm.v1.ListToolsResponse\x12a\n" +
-	"\x0eGetToolPackage\x12&.lojinha.wasm.v1.GetToolPackageRequest\x1a'.lojinha.wasm.v1.GetToolPackageResponseBGZEgithub.com/erick/projs/trabalho-grpc/gen/lojinhawasm/v1;lojinhawasmv1b\x06proto3"
+	"\x0eexpected_shape\x18\x04 \x01(\tR\rexpectedShape2\xcf\x01\n" +
+	"\x12ToolCatalogService\x12T\n" +
+	"\tListTools\x12\".wasmtoolstore.v1.ListToolsRequest\x1a#.wasmtoolstore.v1.ListToolsResponse\x12c\n" +
+	"\x0eGetToolPackage\x12'.wasmtoolstore.v1.GetToolPackageRequest\x1a(.wasmtoolstore.v1.GetToolPackageResponseBMZKgithub.com/erick/projs/wasm-tool-store/gen/wasmtoolstore/v1;wasmtoolstorev1b\x06proto3"
 
 var (
-	file_gen_lojinhawasm_v1_tool_catalog_proto_rawDescOnce sync.Once
-	file_gen_lojinhawasm_v1_tool_catalog_proto_rawDescData []byte
+	file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDescOnce sync.Once
+	file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDescData []byte
 )
 
-func file_gen_lojinhawasm_v1_tool_catalog_proto_rawDescGZIP() []byte {
-	file_gen_lojinhawasm_v1_tool_catalog_proto_rawDescOnce.Do(func() {
-		file_gen_lojinhawasm_v1_tool_catalog_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_gen_lojinhawasm_v1_tool_catalog_proto_rawDesc), len(file_gen_lojinhawasm_v1_tool_catalog_proto_rawDesc)))
+func file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDescGZIP() []byte {
+	file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDescOnce.Do(func() {
+		file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDesc), len(file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDesc)))
 	})
-	return file_gen_lojinhawasm_v1_tool_catalog_proto_rawDescData
+	return file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDescData
 }
 
-var file_gen_lojinhawasm_v1_tool_catalog_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
-var file_gen_lojinhawasm_v1_tool_catalog_proto_goTypes = []any{
-	(*ListToolsRequest)(nil),       // 0: lojinha.wasm.v1.ListToolsRequest
-	(*ListToolsResponse)(nil),      // 1: lojinha.wasm.v1.ListToolsResponse
-	(*GetToolPackageRequest)(nil),  // 2: lojinha.wasm.v1.GetToolPackageRequest
-	(*GetToolPackageResponse)(nil), // 3: lojinha.wasm.v1.GetToolPackageResponse
-	(*ToolSummary)(nil),            // 4: lojinha.wasm.v1.ToolSummary
-	(*TypedError)(nil),             // 5: lojinha.wasm.v1.TypedError
+var file_gen_wasmtoolstore_v1_tool_catalog_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_gen_wasmtoolstore_v1_tool_catalog_proto_goTypes = []any{
+	(*ListToolsRequest)(nil),       // 0: wasmtoolstore.v1.ListToolsRequest
+	(*ListToolsResponse)(nil),      // 1: wasmtoolstore.v1.ListToolsResponse
+	(*GetToolPackageRequest)(nil),  // 2: wasmtoolstore.v1.GetToolPackageRequest
+	(*GetToolPackageResponse)(nil), // 3: wasmtoolstore.v1.GetToolPackageResponse
+	(*ToolSummary)(nil),            // 4: wasmtoolstore.v1.ToolSummary
+	(*TypedError)(nil),             // 5: wasmtoolstore.v1.TypedError
 }
-var file_gen_lojinhawasm_v1_tool_catalog_proto_depIdxs = []int32{
-	4, // 0: lojinha.wasm.v1.ListToolsResponse.tools:type_name -> lojinha.wasm.v1.ToolSummary
-	5, // 1: lojinha.wasm.v1.ListToolsResponse.error:type_name -> lojinha.wasm.v1.TypedError
-	5, // 2: lojinha.wasm.v1.GetToolPackageResponse.error:type_name -> lojinha.wasm.v1.TypedError
-	0, // 3: lojinha.wasm.v1.ToolCatalogService.ListTools:input_type -> lojinha.wasm.v1.ListToolsRequest
-	2, // 4: lojinha.wasm.v1.ToolCatalogService.GetToolPackage:input_type -> lojinha.wasm.v1.GetToolPackageRequest
-	1, // 5: lojinha.wasm.v1.ToolCatalogService.ListTools:output_type -> lojinha.wasm.v1.ListToolsResponse
-	3, // 6: lojinha.wasm.v1.ToolCatalogService.GetToolPackage:output_type -> lojinha.wasm.v1.GetToolPackageResponse
+var file_gen_wasmtoolstore_v1_tool_catalog_proto_depIdxs = []int32{
+	4, // 0: wasmtoolstore.v1.ListToolsResponse.tools:type_name -> wasmtoolstore.v1.ToolSummary
+	5, // 1: wasmtoolstore.v1.ListToolsResponse.error:type_name -> wasmtoolstore.v1.TypedError
+	5, // 2: wasmtoolstore.v1.GetToolPackageResponse.error:type_name -> wasmtoolstore.v1.TypedError
+	0, // 3: wasmtoolstore.v1.ToolCatalogService.ListTools:input_type -> wasmtoolstore.v1.ListToolsRequest
+	2, // 4: wasmtoolstore.v1.ToolCatalogService.GetToolPackage:input_type -> wasmtoolstore.v1.GetToolPackageRequest
+	1, // 5: wasmtoolstore.v1.ToolCatalogService.ListTools:output_type -> wasmtoolstore.v1.ListToolsResponse
+	3, // 6: wasmtoolstore.v1.ToolCatalogService.GetToolPackage:output_type -> wasmtoolstore.v1.GetToolPackageResponse
 	5, // [5:7] is the sub-list for method output_type
 	3, // [3:5] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
@@ -570,26 +570,26 @@ var file_gen_lojinhawasm_v1_tool_catalog_proto_depIdxs = []int32{
 	0, // [0:3] is the sub-list for field type_name
 }
 
-func init() { file_gen_lojinhawasm_v1_tool_catalog_proto_init() }
-func file_gen_lojinhawasm_v1_tool_catalog_proto_init() {
-	if File_gen_lojinhawasm_v1_tool_catalog_proto != nil {
+func init() { file_gen_wasmtoolstore_v1_tool_catalog_proto_init() }
+func file_gen_wasmtoolstore_v1_tool_catalog_proto_init() {
+	if File_gen_wasmtoolstore_v1_tool_catalog_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_gen_lojinhawasm_v1_tool_catalog_proto_rawDesc), len(file_gen_lojinhawasm_v1_tool_catalog_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDesc), len(file_gen_wasmtoolstore_v1_tool_catalog_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_gen_lojinhawasm_v1_tool_catalog_proto_goTypes,
-		DependencyIndexes: file_gen_lojinhawasm_v1_tool_catalog_proto_depIdxs,
-		MessageInfos:      file_gen_lojinhawasm_v1_tool_catalog_proto_msgTypes,
+		GoTypes:           file_gen_wasmtoolstore_v1_tool_catalog_proto_goTypes,
+		DependencyIndexes: file_gen_wasmtoolstore_v1_tool_catalog_proto_depIdxs,
+		MessageInfos:      file_gen_wasmtoolstore_v1_tool_catalog_proto_msgTypes,
 	}.Build()
-	File_gen_lojinhawasm_v1_tool_catalog_proto = out.File
-	file_gen_lojinhawasm_v1_tool_catalog_proto_goTypes = nil
-	file_gen_lojinhawasm_v1_tool_catalog_proto_depIdxs = nil
+	File_gen_wasmtoolstore_v1_tool_catalog_proto = out.File
+	file_gen_wasmtoolstore_v1_tool_catalog_proto_goTypes = nil
+	file_gen_wasmtoolstore_v1_tool_catalog_proto_depIdxs = nil
 }

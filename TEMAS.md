@@ -1,57 +1,56 @@
-# Catálogo de Ideias para a Lojinha WASM
+# Idea Catalog For The WASM Tool Store
 
-Este arquivo resume o catalogo de tools e a direcao escolhida para o MVP.
+This file summarizes the tool catalog and the selected direction for the MVP.
 
-## MVP Escolhido
+## Selected MVP
 
 - `json2yaml`
 - `yaml2json`
 
-## Fluxo De Transporte
+## Transport Flow
 
-- `Go` fala com `Next` por gRPC.
-- `Next` fala com o browser por REST.
-- `WebSocket` pode ser usado depois para status em tempo real.
-- O browser baixa o WASM e executa a tool localmente.
+- `Go` talks to `Next` through gRPC.
+- `Next` talks to the browser through REST.
+- `WebSocket` can be added later for real-time status.
+- The browser downloads the WASM and executes the tool locally.
 
-## Conversao De Arquivos
+## File Conversion
 
 - PDF -> PNG
 - PDF -> JPG
-- PDF -> PDF menor
+- PDF -> smaller PDF
 - MP4 -> WEBM
 - WEBM -> MP4
-- compressao de video
+- video compression
 - WAV -> MP3
 - MP3 -> OGG
-- compressao de audio
-- SVG -> SVG otimizado
+- audio compression
+- SVG -> optimized SVG
 - SVG -> PNG
 
-## Ferramentas De Texto E Codigo
+## Text And Code Tools
 
-- formatador de JSON
-- validador de JSON Schema
-- formatador de SQL
-- minificador de JS/CSS/HTML
-- analisador de codigo
-- contador de linhas de codigo
-- visualizador de AST
-- validador de YAML
-- conversor YAML ↔ JSON
-- gerador de tipos TypeScript a partir de JSON
-- parser de Markdown
-- compilador/transpilador pequeno
-- validador de regex
+- JSON formatter
+- JSON Schema validator
+- SQL formatter
+- JS/CSS/HTML minifier
+- code analyzer
+- code line counter
+- AST viewer
+- YAML validator
+- YAML ↔ JSON converter
+- TypeScript type generator from JSON
+- Markdown parser
+- small compiler/transpiler
+- regex validator
 
-## Aplicacoes Mais Amplas
+## Broader Applications
 
-- playground de linguagens compiladas para WASM
+- playground for languages compiled to WASM
 
-## Tipos De gRPC Considerados
+## Considered gRPC Types
 
 - Unary: 1 request, 1 response
-- Server streaming: 1 request, varias respostas
-- Client streaming: varias mensagens, 1 resposta no final
-- Bidirectional streaming: cliente e servidor trocando mensagens em tempo real
-
+- Server streaming: 1 request, multiple responses
+- Client streaming: multiple messages, 1 response at the end
+- Bidirectional streaming: client and server exchanging messages in real time
